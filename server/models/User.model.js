@@ -13,24 +13,60 @@ const UserSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
+    phonenumber: {
+      type: Number,
+      required: [true, "phone number is required"],
+      unique: true,
+    },
+    address: {
+      type: String,
+      required: [true, "address is required"],
+      unique: true,
+    },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number], // [longitude, latitude]
+        required: true,
+      },
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
     },
     role: {
       type: String,
-      enum: ["user", "admin", "shopkeeper"],
+      enum: ["user", "admin"],
       default: "user",
     },
-    wishlist:[{
-      type: Schema.Types.ObjectId,
-      ref: "Pet"
-    }]
+    wishlist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
+    avatar:{
+      type:String,
+      required:[true, "avatar is required"]
+    }
   },
   {
     timestamps: true,
   }
 );
+
+// for geo spatial queries
+UserSchema.index({ location: "2dsphere" });
 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
