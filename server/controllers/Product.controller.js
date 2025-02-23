@@ -34,7 +34,7 @@ export const listAllProducts = asyncHandler(async (req, res) => {
 export const getSingleProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).populate("userId");
 
   if (!product) {
     throw new ApiError(404, "Product not found");

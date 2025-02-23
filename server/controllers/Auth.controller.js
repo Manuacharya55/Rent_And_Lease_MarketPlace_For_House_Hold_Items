@@ -60,10 +60,13 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const token = existingUser.generateToken();
 
-  res.cookie("token",token).send({
+  res.cookie("token", token, {
+    httpOnly: true,  // Prevent client-side access
+    sameSite: "Strict", // Prevent CSRF attacks
+  })
+  .send({
     success: true,
     data: existingUser,
-    token: token,
   });
 });
 

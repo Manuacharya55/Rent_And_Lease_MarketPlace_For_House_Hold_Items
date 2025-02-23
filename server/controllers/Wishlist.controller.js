@@ -22,6 +22,7 @@ export const addProductToWishlist = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { _id } = req.user;
 
+  console.log("log -1")
   const existingUser = await User.findById(_id);
   if (!existingUser) {
     throw new ApiError(400, "No such user exists");
