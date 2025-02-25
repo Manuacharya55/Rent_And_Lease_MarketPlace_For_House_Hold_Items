@@ -6,19 +6,16 @@ const DashBoardNavBar = () => {
     <nav id="dashboard-navbar">
         <ul>
             <li>
-                <NavLink>Insights</NavLink>
+                <NavLink to={"/dashboard/insights"}>Insights</NavLink>
             </li>
             <li>
-                <NavLink>Items</NavLink>
+                <NavLink to={"/dashboard/items"}>Items</NavLink>
             </li>
             <li>
-                <NavLink>Leased</NavLink>
+                <NavLink to={"/dashboard/leased"}>Leased</NavLink>
             </li>
             <li>
-                <NavLink>Orders</NavLink>
-            </li>
-            <li>
-                <NavLink></NavLink>
+                <NavLink to={"/dashboard/orders"}>Orders</NavLink>
             </li>
         </ul>
     </nav>

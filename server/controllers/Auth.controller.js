@@ -110,6 +110,29 @@ export const getUserprofile = asyncHandler(async (req, res) => {
     })
     .populate({
       path: "products",
+      match: { isActive : true }, // Select only active products
+    });
+
+  if (!user) {
+    throw new ApiError(400, "No User Exists");
+  }
+
+  res.send({
+    success: true,
+    data: user,
+  });
+});
+
+export const getmyprofile = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+
+  const user = await User.findById(_id)
+    .populate({
+      path: "wishlist",
+    })
+    .populate({
+      path: "products",
+      match: { isActive : true },
     });
 
   if (!user) {

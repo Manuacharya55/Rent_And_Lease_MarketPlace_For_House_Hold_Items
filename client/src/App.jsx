@@ -4,6 +4,8 @@ import "./style/NavBar.css";
 import "./style/profile.css";
 import "./style/productdescription.css";
 import "./style/card.css";
+import "./style/dashboard.css";
+import "./style/homepage.css";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -16,6 +18,9 @@ import ProtectedLayout from "./components/ProtectedLayout";
 import HomePage from "./pages/HomePage";
 import WishlistPage from "./pages/WishlistPage";
 import DashBoard from "./pages/DashBoard";
+import DashBoardProductPage from "./pages/DashBoardProductPage";
+import EditProduct from "./components/EditProduct";
+import EditProductPage from "./pages/EditProductPage";
 
 function App() {
   return (
@@ -32,6 +37,11 @@ function App() {
             <Route path="/product/:id" element={<ProductDescriptionPage />} />
             <Route path="/addProduct" element={<AddProductPage />} />
             <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/dashboard/insights" element={<DashBoard />} />
+            <Route path="/dashboard/items" element={<DashBoardProductPage />} />
+            <Route path="/dashboard/insights" element={<DashBoard />} />
+            <Route path="/dashboard/edit/:id" element={<EditProductPage />} />
+            
           </Route>
         </Route>
       </Routes>

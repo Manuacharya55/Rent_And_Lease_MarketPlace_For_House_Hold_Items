@@ -1,12 +1,27 @@
-import React from 'react'
-import DashBoardNavBar from '../components/DashBoardNavBar'
+import React from "react";
+import DashBoardNavBar from "../components/DashBoardNavBar";
 
 const DashBoard = () => {
   return (
-    <>
-    <DashBoardNavBar/>
-    </>
-  )
-}
+    <div id="dashboard-container">
+      <DashBoardNavBar />
 
-export default DashBoard
+      <div id="count-holder">
+        <div id="count">
+          <h1>10</h1>
+          <p>Products</p>
+        </div>
+        <div id="count">
+          <h1>10</h1>
+          <p>Rented</p>
+        </div>
+        <div id="count">
+          <h1>10</h1>
+          <p>Free</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DashBoard;

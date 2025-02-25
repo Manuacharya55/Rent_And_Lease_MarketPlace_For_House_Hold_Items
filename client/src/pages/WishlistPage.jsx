@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/Auth";
 import axios from "axios";
+import { useUser } from "../context/Profile";
+import ProductCard from "../components/ProductCard";
 
 const WishlistPage = () => {
-  const [wishlist, setWishlist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-
+  const { wishlist, setWishlist } = useAuth();
   const loadWishlist = async () => {
     if (!user) return;
 
@@ -23,7 +24,7 @@ const WishlistPage = () => {
 
       if (response.data.success) {
         console.log(response.data.data);
-        setWishlist([1,2,3,4,5]);
+        setWishlist(response.data.data);
         setIsLoading(false);
       }
     } catch (error) {
@@ -36,7 +37,30 @@ const WishlistPage = () => {
       loadWishlist();
     }
   }, [user]);
-  return isLoading ? "loading" : wishlist.length > 0 ? (wishlist.map((curEle)=> "hi")) : (<p>No Product In the WishList</p>);
+  return isLoading ? (
+    "loading"
+  ) : wishlist.length > 0 ? (
+    <div id="product-holder">
+      {
+        wishlist.map((item) => (
+          <ProductCard
+            props={{
+              productName: item.productName,
+              category: item.category,
+              price: item.price,
+              productImage: item.productImage,
+              isWishlist: true,
+              isDashboard: false,
+              id:item._id,
+              user
+            }}
+          />
+        ))
+      }
+    </div>
+  ) : (
+    <p>No Product In the WishList</p>
+  );
 };
 
 export default WishlistPage;

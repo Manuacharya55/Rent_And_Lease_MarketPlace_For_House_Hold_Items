@@ -5,12 +5,14 @@
   gap: 20px;
   justify-content: center;
   background-color: rgb(246, 249, 250);
+  padding: 20px;
 }
 
 #prod-card {
   border-radius: 20px;
   width: 250px;
-  overflow: hidden;
+  height: fit-content;
+  /* overflow: hidden; */
   padding: 10px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
   background-color: white;
@@ -25,6 +27,21 @@
   border-radius: 10px;
 }
 
+#prod-icons{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+  /* border: 1px solid; */
+}
+
+#card-icon{
+  min-width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+}
 #wishlist-bar {
   width: 100%;
   padding: 10px;
@@ -36,7 +53,15 @@
   width: 100%;
   padding: 10px;
 }
-
+#btn{
+  padding: 10px 15px;
+  background-color: #FF8C00;
+  border: none;
+  color: white;
+  border-radius: 25px;
+  margin: auto;
+  display: block;
+}
 #category {
   color: rgb(172, 172, 172);
 }
@@ -48,4 +73,15 @@
 a {
   text-decoration: none;
   color: black;
+}
+
+button{
+ color: white;
+}
+#edit{
+  background-color: #FF8C00;
+}
+
+#delete{
+  background-color: red;
 }

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { handleUpload } from "../utils/imageupload";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../context/Auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddProduct = () => {
+const EditProduct = () => {
+  const [isLoading, setIsLoading] = useState([]);
   const navigate = useNavigate();
   const { user } = useAuth();
   const category = [
@@ -30,38 +31,53 @@ const AddProduct = () => {
     productImage: [],
   });
 
+  const { id } = useParams();
+  const loadProduct = async () => {
+    if (!user) return;
+
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/v1/product/${id}`,
+        {
+          headers: {
+            "Content-type": "application/json",
+            "auth-token": user.token,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        const { data } = response.data;
+        console.log(data);
+        setForm({
+          productName: data.productName,
+          description: data.description,
+          category: data.category,
+          price: data.price,
+          productImage: data.productImage,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user.token) loadProduct();
+  }, [user]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-
-    if (!file) {
-      toast.error("File Not Selected");
-    }
-    try {
-      const uploadedAvatar = await toast.promise(handleUpload(file), {
-        loading: "Uploading image...",
-        success: "Image uploaded successfully!",
-        error: "Failed to upload image.",
-      });
-      setImageArray((prev) => [...prev, uploadedAvatar]);
-      setImageArray([]);
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error("Something went wrong");
-    }
-  };
-
-  const addProduct = async (e) => {
+  const editProduct = async (e) => {
     e.preventDefault();
-    if (imageArray.length === 4) {
+
       const updatedForm = { ...form, productImage: imageArray };
       try {
-        const response = await axios.post(
-          "http://localhost:4000/api/v1/product/",
+        const response = await axios.patch(
+          `http://localhost:4000/api/v1/product/${id}`,
           updatedForm,
           {
             headers: {
@@ -72,27 +88,18 @@ const AddProduct = () => {
         );
 
         if (response.data.success) {
-          toast.success("Product added successfully");
+          toast.success("Product updated successfully");
           console.log(response.data.data);
-          setForm((prev) => ({
-            ...prev,
-            productName: "",
-            description: "",
-            category: "",
-            price: "",
-          }));
+          navigate("/dashboard")
         }
       } catch (error) {
         console.log(error);
         toast.error("Please upload image");
       }
-    } else {
-      toast.error("Please upload image");
-    }
   };
 
   return (
-    <form onSubmit={addProduct}>
+    <form onSubmit={editProduct}>
       <input
         type="text"
         name="productName"
@@ -130,13 +137,15 @@ const AddProduct = () => {
           </option>
         ))}
       </select>
-      <input type="file" onChange={handleFileUpload} />
-      <input type="file" onChange={handleFileUpload} />
-      <input type="file" onChange={handleFileUpload} />
-      <input type="file" onChange={handleFileUpload} />
-      <button type="submit">Add Product</button>
+      <div id="edit-image-holder">
+        <img src={form.productImage[0]} alt="" />
+        <img src={form.productImage[1]} alt="" />
+        <img src={form.productImage[2]} alt="" />
+        <img src={form.productImage[3]} alt="" />
+      </div>
+      <button type="submit">Edit Product</button>
     </form>
   );
 };
 
-export default AddProduct;
+export default EditProduct;

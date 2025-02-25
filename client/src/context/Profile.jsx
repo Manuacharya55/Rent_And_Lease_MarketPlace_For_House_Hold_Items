@@ -1,20 +1,27 @@
-import { useContext, createContext, useState } from "react";
+import axios from "axios";
+import { useContext, createContext, useState, useEffect } from "react";
+import { useAuth } from "./Auth";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
+   const [wishlist, setWishlist] = useState([]);
   const [profile, setProfile] = useState({
-    name:'',
-    email:'',
-    phonenumber:'',
-    avatar:'',
-    address:'',
-    location:''
+    name: "",
+    email: "",
+    phonenumber: "",
+    avatar: "",
+    address: "",
+    location: "",
   });
-  const [wishlist, setWishlist] = useState([]);
 
-
-  return <UserContext.Provider value={{setProfile,profile}}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider
+      value={{ setProfile, profile, wishlist, setWishlist }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = () => {

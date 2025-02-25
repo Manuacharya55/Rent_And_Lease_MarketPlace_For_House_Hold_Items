@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getmyprofile,
   getUserprofile,
   loginUser,
   registerUser,
@@ -12,6 +13,7 @@ const router = Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.get("/myprofile",verifyJWT, getmyprofile);
 router.route("/profile/:id").get(getUserprofile).patch(verifyJWT,updateUserProfile);
 
 export default router;

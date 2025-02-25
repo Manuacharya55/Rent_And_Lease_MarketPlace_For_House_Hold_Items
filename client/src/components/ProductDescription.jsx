@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import NavBar from "./NavBar";
 import OwnerCard from "./OwnerCard";
 import { MoveLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../context/Auth";
+import { useUser } from "../context/Profile";
 
 const ProductDescription = ({ props }) => {
   const navigate = useNavigate();
+  const { wishlist, setWishlist } = useUser();
+
   const { user } = useAuth();
   const {
     productName,
@@ -19,7 +21,7 @@ const ProductDescription = ({ props }) => {
     price,
     _id,
   } = props;
-  // console.log(_id ,user.token)
+
   const [subimg, setSubimg] = useState([]);
 
   const [mainImg, setMainImg] = useState(productImage[0]);
@@ -36,7 +38,8 @@ const ProductDescription = ({ props }) => {
     }
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/v1/wishlist/${_id}`,{},
+        `http://localhost:4000/api/v1/wishlist/${_id}`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -55,6 +58,32 @@ const ProductDescription = ({ props }) => {
     }
   };
 
+  const removeFromWishlist = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:4000/api/v1/wishlist/${_id}`,
+        {
+          headers: {
+            "Content-type": "application/json",
+            "auth-token": user.token,
+          },
+        }
+      );
+
+      console.log(response);
+      if (response.data.success) {
+        toast.success("Removed from wishlist");
+
+        setWishlist((prev) => prev.filter((curEle) => curEle._id !== id));
+      }
+    } catch (error) {
+      toast.error("failed to remove");
+      console.log(error);
+    }
+  };
+
+  console.log(wishlist.find((curEle) => curEle._id === _id)
+)
   return (
     <div id="product-desc">
       <div id="img-desc">
@@ -76,8 +105,12 @@ const ProductDescription = ({ props }) => {
         />
 
         <div id="btn-holder">
-          <button>Rent Now</button>
-          <button onClick={handleWishlist}>Add To Wishlist</button>
+          <button id="btn">Rent Now</button>
+          {wishlist.find((curEle) => _id === curEle._id) ? (
+            <button onClick={removeFromWishlist} id="delete">remove from Wishlist</button>
+          ) : (
+            <button onClick={handleWishlist} id="btn">Add To Wishlist</button>
+          )}
         </div>
       </div>
       <div id="sub-img">

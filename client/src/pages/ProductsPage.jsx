@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import { useAuth } from "../context/Auth";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import DashboardProductCard from "../components/DashboardProductCard";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -47,6 +48,9 @@ const ProductsPage = () => {
             category: item.category,
             price: item.price,
             productImage: item.productImage,
+            isWishlist:false,
+            isDashboard:false,
+            id:item._id
           }}
         />
         </NavLink>
