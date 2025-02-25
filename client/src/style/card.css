@@ -1,11 +1,21 @@
 #product-holder {
   width: 100%;
   display: flex;
+}
+
+#all-products{
+  width: 60%;
+  display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
   background-color: rgb(246, 249, 250);
   padding: 20px;
+  overflow-y: scroll;
+}
+
+#all-products::-webkit-scrollbar {
+  display: none; /* Hides scrollbar */
 }
 
 #prod-card {

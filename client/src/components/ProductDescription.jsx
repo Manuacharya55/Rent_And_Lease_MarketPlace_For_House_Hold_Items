@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../context/Auth";
 import { useUser } from "../context/Profile";
+import RouteMap from "./RouteMap";
 
 const ProductDescription = ({ props }) => {
   const navigate = useNavigate();
@@ -129,7 +130,9 @@ const ProductDescription = ({ props }) => {
         <div id="sub-img-btn">
           <img src={productImage[3]} onClick={handleImageClick} alt="" />
         </div>
+
       </div>
+
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { useAuth } from "../context/Auth";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import DashboardProductCard from "../components/DashboardProductCard";
+import MapComponent from "../components/MapComponent";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -39,6 +40,8 @@ const ProductsPage = () => {
     "Loading"
   ) : (
     <div id="product-holder">
+      
+      <div id="all-products">
       {products.map((item) => (
         <NavLink to={`/product/${item._id}`}>
             <ProductCard
@@ -55,6 +58,8 @@ const ProductsPage = () => {
         />
         </NavLink>
       ))}
+      </div>
+      <MapComponent/>
     </div>
   );
 };

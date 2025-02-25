@@ -21,6 +21,7 @@ import DashBoard from "./pages/DashBoard";
 import DashBoardProductPage from "./pages/DashBoardProductPage";
 import EditProduct from "./components/EditProduct";
 import EditProductPage from "./pages/EditProductPage";
+import MapComponent from "./components/MapComponent";
 
 function App() {
   return (

@@ -3,15 +3,17 @@ import React, { useEffect, useState } from "react";
 import ProductDescription from "../components/ProductDescription";
 import { useAuth } from "../context/Auth";
 import { useParams } from "react-router-dom";
+import RouteMap from "../components/RouteMap";
 
 const ProductDescriptionPage = () => {
   const { user } = useAuth();
   const [isloading, setIsLoading] = useState(true);
-  const [props,setProps] = useState([])
-  const {id} = useParams()
-  console.log(id)
+  const [props, setProps] = useState([]);
+  const [location,setLocation] = useState({});
+  const { id } = useParams();
+  console.log(id);
   const LoadProduct = async () => {
-    if (!user) return
+    if (!user) return;
     try {
       const response = await axios.get(
         `http://localhost:4000/api/v1/product/${id}`,
@@ -24,8 +26,13 @@ const ProductDescriptionPage = () => {
       );
 
       if (response.data.success) {
-        setIsLoading(false)
+        setIsLoading(false);
         setProps(response.data.data);
+        setLocation({
+          lat : response.data.data.userId.location.coordinates[1],
+          lng : response.data.data.userId.location.coordinates[0],
+        })
+        console.log(response.data.data.userId.location.coordinates)
       }
     } catch (error) {
       console.log(error);
@@ -33,10 +40,16 @@ const ProductDescriptionPage = () => {
   };
 
   useEffect(() => {
-    if(user) 
-    LoadProduct();
+    if (user) LoadProduct();
   }, [user]);
-  return isloading ? "Loading" :<ProductDescription props={props}/>;
+  return isloading ? (
+    "Loading"
+  ) : (
+    <div id="page-description">
+      <ProductDescription props={props} />
+      <RouteMap props={location}/>
+    </div>
+  );
 };
 
 export default ProductDescriptionPage;

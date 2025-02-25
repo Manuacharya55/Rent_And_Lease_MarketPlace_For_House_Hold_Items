@@ -15,7 +15,10 @@ export const listAllProducts = asyncHandler(async (req, res) => {
   if (category) query.category = category;
   if (price) query.price = { $lte: parseFloat(price) };
 
-  const products = await Product.find(query)
+  const products = await Product.find(query).populate({
+    path:"userId",
+    select:"location"
+  })
     .skip(skip)
     .limit(pagelimit)
     .sort({ createdAt: -1 });
@@ -34,7 +37,9 @@ export const listAllProducts = asyncHandler(async (req, res) => {
 export const getSingleProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id).populate("userId");
+  const product = await Product.findById(id).populate({
+    path:"userId"
+  });
 
   if (!product) {
     throw new ApiError(404, "Product not found");

@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (response.data.success) {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setWishlist(response.data.data);
       }
     } catch (error) {

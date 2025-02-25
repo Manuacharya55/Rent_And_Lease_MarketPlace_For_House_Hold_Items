@@ -1,6 +1,6 @@
 #root{
     display: flex;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 nav{
