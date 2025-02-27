@@ -25,11 +25,11 @@ const RentSchema = new Schema({
         type:Number,
         required:[true,"Total amount is required"]
     },
-    // status:{
-    //     type:String,
-    //     enum:["Pending","Approved","Rejected","Returned"],
-    //     default:"Pending"
-    // }
+    status:{
+        type:String,
+        enum:["Not Returned","Returned"],
+        default:"Not Returned"
+    }
 })
 
 export const Rent = model("Rent",RentSchema)

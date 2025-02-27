@@ -22,6 +22,7 @@ import DashBoardProductPage from "./pages/DashBoardProductPage";
 import EditProduct from "./components/EditProduct";
 import EditProductPage from "./pages/EditProductPage";
 import MapComponent from "./components/MapComponent";
+import CheckOutPage from "./pages/CheckOutPage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/product/:id" element={<ProductDescriptionPage />} />
             <Route path="/addProduct" element={<AddProductPage />} />
+            <Route path="/checkout/:id" element={<CheckOutPage />} />
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/dashboard/insights" element={<DashBoard />} />
             <Route path="/dashboard/items" element={<DashBoardProductPage />} />

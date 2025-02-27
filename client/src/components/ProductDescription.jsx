@@ -106,7 +106,9 @@ const ProductDescription = ({ props }) => {
         />
 
         <div id="btn-holder">
-          <button id="btn">Rent Now</button>
+          <button id="btn" onClick={()=>{
+            navigate(`/checkout/${_id}`)
+          }}>Rent Now</button>
           {wishlist.find((curEle) => _id === curEle._id) ? (
             <button onClick={removeFromWishlist} id="delete">remove from Wishlist</button>
           ) : (

@@ -123,3 +123,57 @@
     height: 100%;
     overflow-y: scroll;
 }
+
+/* Ensure the calendar is fully visible */
+.react-calendar {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px !important;
+    border: none !important;
+    overflow: hidden;
+  }
+  
+  /* Ensure text is visible */
+  .react-calendar__month-view,
+  .react-calendar__month-view abbr {
+    color: black !important; /* Fix text color */
+  }
+  
+  /* Ensure navigation buttons are visible */
+  .react-calendar__navigation button {
+    color: black !important;
+    background: white !important;
+
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .react-calendar__navigation button:hover {
+    background: #f0f0f0 !important;
+  }
+  
+  /* Ensure days are visible */
+  .react-calendar__tile {
+    color: black !important;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Fix hover issue */
+  .react-calendar__tile:hover {
+    background: #ddd !important;
+  }
+
+  .marked-date {
+    background: #FF8C00 !important;
+    color: white !important;
+    font-weight: bold;
+    /* border-radius: 25px; Optional: Makes the highlight circular */
+  }
+  
+  /* Ensure text remains visible */
+  .marked-date abbr {
+    color: white !important;
+  }

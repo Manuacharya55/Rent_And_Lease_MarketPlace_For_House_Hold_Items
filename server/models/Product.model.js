@@ -51,7 +51,10 @@ const ProductSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     require:[true,"User id is required"]
-  }
+  },
+  rentedDates:[{
+    type:Date
+  }]
 },{timestamps:true});
 
 export const Product = model("Product", ProductSchema);
