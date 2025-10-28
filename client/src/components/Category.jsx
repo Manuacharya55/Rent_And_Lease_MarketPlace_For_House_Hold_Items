@@ -1,17 +1,17 @@
-import { Armchair } from "lucide-react";
 import React from "react";
 
-const Category = () => {
+const Category = ({ image, category }) => {
   return (
     <div id="category">
       <div id="category-icon">
-        <Armchair size={80}/>
+        <img src={image} alt={category} />
       </div>
       <div id="category-name">
-        <p>Furniture</p>
+        <p>{category}</p>
       </div>
     </div>
   );
 };
 
 export default Category;
+

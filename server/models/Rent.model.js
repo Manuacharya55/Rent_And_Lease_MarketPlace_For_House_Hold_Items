@@ -29,6 +29,9 @@ const RentSchema = new Schema({
         type:String,
         enum:["Not Returned","Returned"],
         default:"Not Returned"
+    },
+    paymentId:{
+        type:String
     }
 })
 

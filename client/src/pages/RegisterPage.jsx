@@ -1,17 +1,28 @@
-import React from 'react'
-import Register from '../components/Register'
+import React, { useState } from "react";
+import Register from "../components/Register";
+import LocationFetcher from "../components/LocationFetcher";
 
 const RegisterPage = () => {
+  const [location, setLocation] = useState({
+    lat: "",
+    lng: "",
+    country: "",
+    state: "",
+    district: "",
+  });
+
   return (
     <div id="container">
-    <div id="image-holder">
-        <img src="https://img.freepik.com/premium-photo/house-with-black-roof-black-door-that-says-welcome-front_1261459-3805.jpg?ga=GA1.1.264547320.1740062602&semt=ais_hybrid" alt="" />
+      <div id="image-holder">
+        {/* Pass setLocation to LocationFetcher so it can update state */}
+        <LocationFetcher setLocation={setLocation} />
+      </div>
+      <div id="form-holder">
+        {/* Pass location state to Register so it updates the inputs */}
+        <Register location={location} />
+      </div>
     </div>
-    <div id="form-holder">
-        <Register/>
-    </div>
-</div>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

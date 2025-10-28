@@ -9,7 +9,9 @@ const CheckOutPage = () => {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [rentedDate, setRentedDate] = useState(true);
-  const [selectedDate,setSelectedDate] = useState();
+  const [selectedDate, setSelectedDate] = useState();
+  const [product, setProduct] = useState();
+
   const fetchData = async () => {
     if (!id || !user) return;
 
@@ -23,9 +25,17 @@ const CheckOutPage = () => {
           },
         }
       );
-      console.log(response.data.data)
-      const dateArray = response.data.data.rentedDates.map((curEle)=> curEle.split("T")[0]);
-      setRentedDate(dateArray)
+      console.log(response.data.data);
+      setProduct({
+        productName: response.data.data.productName,
+        category: response.data.data.category,
+        price: response.data.data.price,
+        _id: response.data.data._id,
+      });
+      const dateArray = response.data.data.rentedDates.map(
+        (curEle) => curEle.split("T")[0]
+      );
+      setRentedDate(dateArray);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -36,10 +46,12 @@ const CheckOutPage = () => {
     fetchData();
   }, [user]);
 
-  useEffect(()=>{
-    console.log(selectedDate)
-  },[selectedDate])
-  return isLoading ? "loading" :(
+  useEffect(() => {
+    console.log(selectedDate);
+  }, [selectedDate]);
+  return isLoading ? (
+    "loading"
+  ) : (
     <div id="container">
       <div id="image-holder">
         <img
@@ -47,7 +59,9 @@ const CheckOutPage = () => {
           alt=""
         />
       </div>
-      <MyCalendar props={rentedDate} setSelectedDate={setSelectedDate}/>
+      <div id="check-out">
+        <MyCalendar product={product} />
+      </div>
     </div>
   );
 };

@@ -19,10 +19,10 @@ import HomePage from "./pages/HomePage";
 import WishlistPage from "./pages/WishlistPage";
 import DashBoard from "./pages/DashBoard";
 import DashBoardProductPage from "./pages/DashBoardProductPage";
-import EditProduct from "./components/EditProduct";
 import EditProductPage from "./pages/EditProductPage";
-import MapComponent from "./components/MapComponent";
 import CheckOutPage from "./pages/CheckOutPage";
+import LeasedProducts from "./pages/LeasedProducts";
+import MyOrders from "./pages/MyOrders";
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<ProtectedLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/profile" element={<ProfileCard />} />
+            <Route path="/myprofile" element={<ProfileCard />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/product/:id" element={<ProductDescriptionPage />} />
@@ -42,6 +42,8 @@ function App() {
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/dashboard/insights" element={<DashBoard />} />
             <Route path="/dashboard/items" element={<DashBoardProductPage />} />
+            <Route path="/dashboard/leased" element={<LeasedProducts />} />
+            <Route path="/dashboard/orders" element={<MyOrders />} />
             <Route path="/dashboard/insights" element={<DashBoard />} />
             <Route path="/dashboard/edit/:id" element={<EditProductPage />} />
             

@@ -58,7 +58,7 @@ const MapComponent = () => {
   ) : (
     <MapContainer
       center={userLocation.length > 0 ? userLocation[0] : defaultCenter} // Ensure valid center
-      zoom={15}
+      zoom={10}
       style={{
         height: "100vh",
         width: "600px",

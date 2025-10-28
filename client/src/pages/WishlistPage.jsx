@@ -8,6 +8,7 @@ const WishlistPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const { wishlist, setWishlist } = useAuth();
+  console.log(user)
   const loadWishlist = async () => {
     if (!user) return;
 
@@ -40,6 +41,7 @@ const WishlistPage = () => {
   return isLoading ? (
     "loading"
   ) : wishlist.length > 0 ? (
+
     <div id="product-holder">
       {
         wishlist.map((item) => (

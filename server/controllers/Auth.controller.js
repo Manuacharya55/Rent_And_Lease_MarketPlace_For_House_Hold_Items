@@ -67,6 +67,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   .send({
     success: true,
     data: existingUser,
+    token
   });
 });
 

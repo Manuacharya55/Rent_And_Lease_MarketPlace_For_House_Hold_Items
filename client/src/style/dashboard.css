@@ -32,3 +32,17 @@
 #count p {
   font-size: 25px;
 }
+
+table img{
+  width: 50px;
+  border-radius: 50%;
+}
+
+#product-holder{
+  gap: 20px;
+  padding: 10px;
+}
+
+tr{
+  border-bottom: 1px solid ;
+}

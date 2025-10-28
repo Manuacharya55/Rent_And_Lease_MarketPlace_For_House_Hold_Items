@@ -14,7 +14,7 @@ const ProductSchema = new Schema({
     enum: [
       "Kitchen",
       "Bedroom",
-      "Living Room",
+      "Electronics",
       "Bathroom",
       "Furniture",
       "Kitchenware",

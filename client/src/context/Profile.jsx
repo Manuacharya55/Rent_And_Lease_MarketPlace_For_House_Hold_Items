@@ -6,6 +6,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
    const [wishlist, setWishlist] = useState([]);
+   const {user}=useAuth()
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -15,6 +16,22 @@ export const UserProvider = ({ children }) => {
     location: "",
   });
 
+  useEffect(()=>{
+    const fetchProfile = async () => {
+
+      if(!user) return
+
+      const { data } = await axios.get("http://localhost:4000/api/v1/auth/myprofile", {
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": user.token
+        },
+      });
+      console.log(data)
+      setProfile(data.data);
+    };
+    fetchProfile();
+  },[user])
   return (
     <UserContext.Provider
       value={{ setProfile, profile, wishlist, setWishlist }}

@@ -1,11 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Home, Package, Heart, PlusCircle, BarChart } from "lucide-react";
+import { useUser } from "../context/Profile";
 
 const NavBar = () => {
+  const {profile} = useUser()
   return (
     <nav>
-      <h1 id="logo">Logo</h1>
+      <img src="https://images.scalebranding.com/stylish-r-logo-41e0dd9d-0f70-4060-bc2f-43da1ae11ffd.jpg" alt="" id="logo" />
 
       <ul>
         <li>
@@ -40,10 +42,10 @@ const NavBar = () => {
         </li>
       </ul>
 
-      <NavLink to={"/profile"}>
+      <NavLink to={"/myprofile"}>
         <div id="avatar">
           <img
-            src="https://cloud.appwrite.io/v1/storage/buckets/67b7203b0016cae0edb1/files/67b73264001d650c3f7f/view?project=67b71ca900384deaad08&mode=admin"
+            src={profile.avatar}
             alt=""
           />
         </div>

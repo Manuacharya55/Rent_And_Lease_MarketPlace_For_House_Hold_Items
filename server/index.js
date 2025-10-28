@@ -7,6 +7,8 @@ import authRouter from "./routers/Auth.router.js"
 import reviewRouter from "./routers/Review.router.js"
 import productRouter from "./routers/Product.router.js"
 import wishlistRouter from "./routers/Wishlist.router.js"
+import rentRouter from "./routers/Rent.router.js"
+import dashboardRouter from "./routers/Dashboard.router.js"
 
 dotenv.config()
 import connectDB from "./database/connection.js"
@@ -30,8 +32,6 @@ app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/product",productRouter)
 app.use("/api/v1/review",reviewRouter)
 app.use("/api/v1/wishlist",wishlistRouter)
-
-app.get("/",(req,res)=>{
-    res.send("Hello World")
-})
+app.use("/api/v1/payment", rentRouter)
+app.use("/api/v1/dashboard", dashboardRouter)
 

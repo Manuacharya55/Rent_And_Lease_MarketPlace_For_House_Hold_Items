@@ -1,9 +1,9 @@
-import { Client, Storage, ID } from "appwrite";
+import { Client, Storage, ID, Permission, Role } from "appwrite";
 
 const client = new Client();
 client
-  .setEndpoint("https://cloud.appwrite.io/v1") // Replace with your endpoint
-  .setProject("67b71ca900384deaad08"); // Replace with your project ID
+  .setEndpoint("https://cloud.appwrite.io/v1")
+  .setProject("67b71ca900384deaad08");
 
 const storage = new Storage(client);
 
@@ -12,16 +12,13 @@ export const handleUpload = async (file) => {
 
   try {
     const response = await storage.createFile(
-      "67b7203b0016cae0edb1", // Replace with your storage bucket ID
+      "67b7203b0016cae0edb1", // Bucket ID
       ID.unique(),
-      file
+      file,
+      [Permission.read(Role.any())] // Public access
     );
 
-    // Get the file preview URL
-    const fileUrl = storage.getFilePreview(
-      "67b7203b0016cae0edb1",
-      response.$id
-    );
+    const fileUrl = storage.getFileView("67b7203b0016cae0edb1", response.$id);
     return fileUrl;
   } catch (error) {
     console.error("Upload failed:", error);

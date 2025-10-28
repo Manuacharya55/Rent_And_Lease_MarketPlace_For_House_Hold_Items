@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/Auth";
 import { useUser } from "../context/Profile";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate()
   const { setToken } = useAuth();
   const { setProfile } = useUser();
   const [formData, setFormData] = useState({
@@ -32,9 +34,10 @@ const Login = () => {
       if (response.data.success) {
         const { name, email, phonenumber, avatar, address, location } =
           response.data.data;
+          console.log(response.data);
         toast.success("Login successful");
-        console.log(response.data);
         setToken(response.data.token, response.data.data.role);
+        navigate("/")
         setProfile({ name, email, phonenumber, avatar, address, location });
       }
     } catch (error) {
@@ -61,8 +64,8 @@ const Login = () => {
         value={formData.password}
         onChange={handleChange}
       />
-      <button type="submit">Register</button>
-      <a href="">Dont have a account</a>
+      <button type="submit">Login</button>
+      <a href="/register">Dont have a account</a>
     </form>
   );
 };

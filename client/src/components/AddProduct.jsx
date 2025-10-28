@@ -11,7 +11,7 @@ const AddProduct = () => {
   const category = [
     "Kitchen",
     "Bedroom",
-    "Living Room",
+    "Electronics",
     "Bathroom",
     "Furniture",
     "Kitchenware",
@@ -33,6 +33,7 @@ const AddProduct = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+    console.log(form);
   };
 
   const handleFileUpload = async (e) => {
@@ -40,15 +41,18 @@ const AddProduct = () => {
 
     if (!file) {
       toast.error("File Not Selected");
+      return;
     }
+
     try {
       const uploadedAvatar = await toast.promise(handleUpload(file), {
         loading: "Uploading image...",
         success: "Image uploaded successfully!",
         error: "Failed to upload image.",
       });
+
+      // ✅ Append new image to the array instead of resetting it
       setImageArray((prev) => [...prev, uploadedAvatar]);
-      setImageArray([]);
     } catch (error) {
       console.error("Upload error:", error);
       toast.error("Something went wrong");
@@ -57,8 +61,10 @@ const AddProduct = () => {
 
   const addProduct = async (e) => {
     e.preventDefault();
+    console.log(imageArray);
     if (imageArray.length === 4) {
       const updatedForm = { ...form, productImage: imageArray };
+      console.log(updatedForm);
       try {
         const response = await axios.post(
           "http://localhost:4000/api/v1/product/",
@@ -119,17 +125,21 @@ const AddProduct = () => {
       />
       <select
         name="category"
-        id=""
         onChange={handleChange}
         required
         value={form.category}
       >
+        <option value="" disabled>
+          Select a category
+        </option>{" "}
+        {/* Add this line */}
         {category.map((list, index) => (
           <option value={list} key={index}>
             {list}
           </option>
         ))}
       </select>
+
       <input type="file" onChange={handleFileUpload} />
       <input type="file" onChange={handleFileUpload} />
       <input type="file" onChange={handleFileUpload} />

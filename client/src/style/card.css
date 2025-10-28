@@ -20,7 +20,7 @@
 
 #prod-card {
   border-radius: 20px;
-  width: 250px;
+  width: 240px;
   height: fit-content;
   /* overflow: hidden; */
   padding: 10px;
@@ -94,4 +94,44 @@ button{
 
 #delete{
   background-color: red;
+}
+
+
+table {
+  width: 95%;
+  margin: auto;
+  border-collapse: collapse;
+  margin: 20px 0px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+
+  text-align: left;
+}
+
+table {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 30px;
+}
+
+th {
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+}
+thead {
+  background-color: #f2f2f2;
+  border-bottom: 3px solid rgb(0, 0, 0);
+  background-color: #FF8C00;
+  color: white;
+}
+
+td button{
+  background-color: #FF8C00;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 25px;
 }

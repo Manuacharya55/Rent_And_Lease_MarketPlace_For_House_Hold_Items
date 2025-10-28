@@ -14,14 +14,13 @@ const UserSchema = new Schema(
       unique: true,
     },
     phonenumber: {
-      type: Number,
+      type: String,
       required: [true, "phone number is required"],
       unique: true,
     },
     address: {
       type: String,
       required: [true, "address is required"],
-      unique: true,
     },
     location: {
       type: {
@@ -33,6 +32,9 @@ const UserSchema = new Schema(
         type: [Number], // [longitude, latitude]
         required: true,
       },
+      country: { type: String, required: true },
+      state: { type: String, required: true },
+      district: { type: String, required: true },
     },
     password: {
       type: String,
@@ -55,10 +57,10 @@ const UserSchema = new Schema(
         ref: "Product",
       },
     ],
-    avatar:{
-      type:String,
-      required:[true, "avatar is required"]
-    }
+    avatar: {
+      type: String,
+      required: [true, "avatar is required"],
+    },
   },
   {
     timestamps: true,

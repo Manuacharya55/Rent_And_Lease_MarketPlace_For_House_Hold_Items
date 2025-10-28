@@ -7,7 +7,7 @@ const ProfileCard = () => {
   return (
     <div id="profile">
         <div id="profile-avatar">
-            <img src="https://cloud.appwrite.io/v1/storage/buckets/67b7203b0016cae0edb1/files/67b73264001d650c3f7f/view?project=67b71ca900384deaad08&mode=admin" alt="" />
+            <img src={profile.avatar} alt="" />
         </div>
         <div id="profile-details">
             <h2>Manu Acharya</h2>

@@ -6,7 +6,10 @@ import { User } from "../models/User.model.js";
 export const listAllProducts = asyncHandler(async (req, res) => {
   const { category, price, limit, page } = req.query;
 
-  const query = { isActive: true };
+  const query = {
+    isActive: true,
+    userId: { $ne: req.user._id } // Exclude products where userId is current user
+  };
 
   const pagelimit = parseInt(limit) || 10;
   const pageNumber = parseInt(page) || 1;
@@ -15,10 +18,11 @@ export const listAllProducts = asyncHandler(async (req, res) => {
   if (category) query.category = category;
   if (price) query.price = { $lte: parseFloat(price) };
 
-  const products = await Product.find(query).populate({
-    path:"userId",
-    select:"location"
-  })
+  const products = await Product.find(query)
+    .populate({
+      path: "userId",
+      select: "location"
+    })
     .skip(skip)
     .limit(pagelimit)
     .sort({ createdAt: -1 });
@@ -32,6 +36,7 @@ export const listAllProducts = asyncHandler(async (req, res) => {
     },
   });
 });
+
 
 // get single product
 export const getSingleProduct = asyncHandler(async (req, res) => {
@@ -84,7 +89,7 @@ export const addProduct = asyncHandler(async (req, res) => {
 });
 
 export const updateProduct = asyncHandler(async (req, res) => {
-  const { productName, description, category, price, productImage } = req.body;
+  const { productName, description, category, price } = req.body;
 
   const { id } = req.params;
   const { _id } = req.user;
@@ -108,7 +113,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   const updatedProduct = await Product.findByIdAndUpdate(
     id,
-    { productName, description, category, price, productImage },
+    { productName, description, category, price, productImage:product.productImage },
     { new: true}
   );
 

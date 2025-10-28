@@ -1,24 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { handleUpload } from "../utils/imageupload";
 import toast from "react-hot-toast";
 import axios from "axios";
-
-const Register = () => {
+import {useNavigate} from "react-router-dom"
+const Register = ({ location }) => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phonenumber: "",
     password: "",
     address: "",
-    latitude: "",
-    longitude: "",
+    latitude: location?.lat || "",
+    longitude: location?.lng || "",
+    country: location?.country || "",
+    state: location?.state || "",
+    district: location?.district || "",
     avatar: null,
   });
+
+  // Update formData when location changes
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      latitude: location?.lat || "",
+      longitude: location?.lng || "",
+      country: location?.country || "",
+      state: location?.state || "",
+      district: location?.district || "",
+    }));
+  }, [location]);
 
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle file upload
@@ -37,7 +53,8 @@ const Register = () => {
         error: "Failed to upload image.",
       });
 
-      setFormData({ ...formData, avatar: uploadedAvatar });
+      setFormData((prev) => ({ ...prev, avatar: uploadedAvatar }));
+      console.log(uploadedAvatar)
     } catch (error) {
       console.error("Upload error:", error);
       toast.error("Something went wrong");
@@ -56,7 +73,10 @@ const Register = () => {
       address: formData.address,
       location: {
         type: "Point",
-        coordinates: [formData.longitude, formData.latitude],
+        coordinates: [Number(formData.longitude), Number(formData.latitude)], // Convert to numbers
+        country: formData.country,
+        state: formData.state,
+        district: formData.district,
       },
       avatar: formData.avatar,
     };
@@ -65,16 +85,13 @@ const Register = () => {
       const response = await axios.post(
         "http://localhost:4000/api/v1/auth/register",
         userObject,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { headers: { "Content-Type": "application/json" } }
       );
 
       if (response.data.success) {
         toast.success("User registered successfully");
         console.log(response.data);
+        navigate("/")
       } else {
         toast.error("Cannot register");
       }
@@ -85,10 +102,12 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id="register-form">
+      <h1>Register Here</h1>
+
       <input
         type="text"
-        placeholder="Enter your fullname"
+        placeholder="Full Name"
         name="name"
         required
         value={formData.name}
@@ -96,7 +115,7 @@ const Register = () => {
       />
       <input
         type="email"
-        placeholder="Enter your email"
+        placeholder="Email"
         name="email"
         required
         value={formData.email}
@@ -104,7 +123,7 @@ const Register = () => {
       />
       <input
         type="text"
-        placeholder="Enter your phone number"
+        placeholder="Phone Number"
         name="phonenumber"
         required
         value={formData.phonenumber}
@@ -112,41 +131,66 @@ const Register = () => {
       />
       <input
         type="password"
-        placeholder="Enter your password"
+        placeholder="Password"
         name="password"
         required
         value={formData.password}
         onChange={handleChange}
       />
       <textarea
-        placeholder="Enter your address"
+        placeholder="Address"
         name="address"
         required
         value={formData.address}
         onChange={handleChange}
       />
+
+      {/* Automatically updated values from locationFetcher */}
       <input
         type="text"
-        placeholder="Enter your latitude"
+        placeholder="Latitude"
         name="latitude"
         required
         value={formData.latitude}
-        onChange={handleChange}
+        readOnly
       />
       <input
         type="text"
-        placeholder="Enter your longitude"
+        placeholder="Longitude"
         name="longitude"
         required
         value={formData.longitude}
-        onChange={handleChange}
+        readOnly
       />
+      <input
+        type="text"
+        placeholder="Country"
+        name="country"
+        value={formData.country}
+        readOnly
+      />
+      <input
+        type="text"
+        placeholder="State"
+        name="state"
+        value={formData.state}
+        readOnly
+      />
+      <input
+        type="text"
+        placeholder="District"
+        name="district"
+        value={formData.district}
+        readOnly
+      />
+
       <input
         type="file"
         placeholder="Upload your avatar"
         required
         onChange={handleFileChange}
       />
+
       <button type="submit">Register</button>
     </form>
   );

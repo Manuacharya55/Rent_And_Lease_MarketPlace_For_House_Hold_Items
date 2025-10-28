@@ -77,3 +77,7 @@ nav a:hover #tooltip{
     display: block;
     color: #FF8C00;
 }
+
+#logo{
+    width: 100px;
+}

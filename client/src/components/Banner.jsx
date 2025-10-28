@@ -2,7 +2,7 @@ import React from "react";
 
 const Banner = () => {
   return <div id="banner">
-    <img src="https://plus.unsplash.com/premium_photo-1661769750859-64b5f1539aa8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdCUyMGltYWdlfGVufDB8fDB8fHww" alt="" />
+    <img src="https://media.istockphoto.com/id/1278547508/photo/household-appliances-and-kitchen-electronics-in-cardboard-boxes-in-warehouse-online-purchase.jpg?s=612x612&w=0&k=20&c=TPgt8MNMmhseiDBO_2qLPiclopqFyRrz8uR6zvlDg5A=" alt="" />
   </div>
 };
 
