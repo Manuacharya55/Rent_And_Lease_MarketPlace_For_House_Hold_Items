@@ -1,19 +1,17 @@
 import { User } from "../models/User.model.js";
 import ApiError from "../utils/ApiError.js";
+import ApiSuccess from "../utils/ApiSuccess.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 
 export const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, phonenumber, password, address, location, avatar } =
+  const { name, email, phonenumber, password, avatar } =
     req.body;
 
   if (
     !name ||
     !email ||
     !phonenumber ||
-    !password ||
-    !address ||
-    !location ||
-    !avatar
+    !password
   ) {
     throw new ApiError(400, "All Fields Are Required");
   }
@@ -29,18 +27,16 @@ export const registerUser = asyncHandler(async (req, res) => {
     email,
     phonenumber,
     password,
-    address,
-    location,
     avatar,
   });
 
   const token = user.generateToken();
 
-  res.cookie("token",token).send({
-    success: true,
-    data: user,
-    token: token,
-  });
+  const data = {
+    user: user,
+    token: token
+  }
+  res.cookie("token", token).json(new ApiSuccess(200, data, "User Registered Successfully"));
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
@@ -60,88 +56,10 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const token = existingUser.generateToken();
 
-  res.cookie("token", token, {
-    httpOnly: true,  // Prevent client-side access
-    sameSite: "Strict", // Prevent CSRF attacks
-  })
-  .send({
-    success: true,
-    data: existingUser,
-    token
-  });
+  const data = {
+    user: existingUser,
+    token: token
+  }
+  res.cookie("token", token).json(new ApiSuccess(200, data, "User Logged In Successfully"));
 });
 
-export const updateUserProfile = asyncHandler(async (req, res) => {
-  const { name, email, phonenumber, password, address, location, avatar } = req.body;
-  const { id } = req.params;
-
-  if(id !== req.user._id){
-    throw new ApiError(400, "You are not authorized to update this user");
-  }
-  const existingUser = await User.findById(id);
-
-  if (!existingUser) {
-    throw new ApiError(400, "No User Exists");
-  }
-
-  const updatedUser = await User.findByIdAndUpdate(
-    id,
-    { name, email, phonenumber, password, address, location, avatar },
-    { new: true, runValidators: true }
-  );
-
-  if (!updatedUser) {
-    throw new ApiError(400, "User update failed");
-  }
-
-  const token = updatedUser.generateToken();
-
-  res.status(200).json({
-    success: true,
-    data: updatedUser,
-  });
-});
-
-export const getUserprofile = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-
-  const user = await User.findById(id)
-    .populate({
-      path: "wishlist",
-    })
-    .populate({
-      path: "products",
-      match: { isActive : true }, // Select only active products
-    });
-
-  if (!user) {
-    throw new ApiError(400, "No User Exists");
-  }
-
-  res.send({
-    success: true,
-    data: user,
-  });
-});
-
-export const getmyprofile = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
-
-  const user = await User.findById(_id)
-    .populate({
-      path: "wishlist",
-    })
-    .populate({
-      path: "products",
-      match: { isActive : true },
-    });
-
-  if (!user) {
-    throw new ApiError(400, "No User Exists");
-  }
-
-  res.send({
-    success: true,
-    data: user,
-  });
-});

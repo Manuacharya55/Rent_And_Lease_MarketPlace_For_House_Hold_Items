@@ -4,14 +4,15 @@ import {
   listAllWishlist,
   removeProductFromWishlist,
 } from "../controllers/Wishlist.controller.js";
-import { verifyJWT } from "../middlewares/Auth.middleware.js";
+import { verifyUser } from "../middlewares/auth.middleware.js";
+
 const router = Router();
 
-router.route("/").get(verifyJWT, listAllWishlist);
+router.route("/").get(verifyUser, listAllWishlist);
 
 router
   .route("/:id")
-  .post(verifyJWT, addProductToWishlist)
-  .delete(verifyJWT, removeProductFromWishlist);
+  .post(verifyUser, addProductToWishlist)
+  .delete(verifyUser, removeProductFromWishlist);
 
 export default router;

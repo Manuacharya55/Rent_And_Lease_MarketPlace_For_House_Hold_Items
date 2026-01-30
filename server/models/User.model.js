@@ -18,24 +18,6 @@ const UserSchema = new Schema(
       required: [true, "phone number is required"],
       unique: true,
     },
-    address: {
-      type: String,
-      required: [true, "address is required"],
-    },
-    location: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        default: "Point",
-      },
-      coordinates: {
-        type: [Number], // [longitude, latitude]
-        required: true,
-      },
-      country: { type: String, required: true },
-      state: { type: String, required: true },
-      district: { type: String, required: true },
-    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -45,21 +27,9 @@ const UserSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    wishlist: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
-    products: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
     avatar: {
       type: String,
-      required: [true, "avatar is required"],
+      default:"https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid&w=740&q=80"
     },
   },
   {

@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const ProductSchema = new Schema({
-  productName: {
+  name: {
     type: String,
     require: [true, "Product name is required"],
   },
@@ -21,6 +21,7 @@ const ProductSchema = new Schema({
       "Clothing",
       "Laundry Care",
       "Decor",
+      "garden"
     ],
     require: [true, "Product category is required"],
   },
@@ -32,18 +33,7 @@ const ProductSchema = new Schema({
     type:Boolean,
     default:true
   },
-  isRented:{
-    type:Boolean,
-    default:false
-  },
-  rentedDate:{
-    type:Date
-  },
-  reviewId:[{
-    type: Schema.Types.ObjectId,
-    ref: "Review",
-  }],
-  productImage:[{
+  images:[{
     type:String,
     require:[true,"Product image is required"]
   }],

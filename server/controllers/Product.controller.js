@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Product } from "../models/Product.model.js";
 import { User } from "../models/User.model.js";
+import ApiSuccess from "../utils/ApiSuccess.js";
 
 export const listAllProducts = asyncHandler(async (req, res) => {
   const { category, price, limit, page } = req.query;
@@ -18,6 +19,8 @@ export const listAllProducts = asyncHandler(async (req, res) => {
   if (category) query.category = category;
   if (price) query.price = { $lte: parseFloat(price) };
 
+  const count = await Product.countDocuments(query);
+
   const products = await Product.find(query)
     .populate({
       path: "userId",
@@ -27,14 +30,16 @@ export const listAllProducts = asyncHandler(async (req, res) => {
     .limit(pagelimit)
     .sort({ createdAt: -1 });
 
-  res.status(200).json({
-    success: true,
+  const data = {
     data: products,
     pagination: {
       currentPage: pageNumber,
       limit: pagelimit,
+      totalDocuments: count,
+      totalPages: Math.ceil(count / pagelimit),
     },
-  });
+  }
+  res.status(200).json(new ApiSuccess(200, data, "Products fetched successfully"));
 });
 
 
@@ -43,23 +48,20 @@ export const getSingleProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const product = await Product.findById(id).populate({
-    path:"userId"
+    path: "userId"
   });
 
   if (!product) {
     throw new ApiError(404, "Product not found");
   }
-  
-  res.send({
-    success: true,
-    data: product,
-  });
+
+  res.status(200).json(new ApiSuccess(200, product, "Product fetched successfully"));
 });
 
 export const addProduct = asyncHandler(async (req, res) => {
-  const { productName, description, category, price, productImage } = req.body;
+  const { name, description, category, price, images } = req.body;
 
-  if (!productName || !description || !category || !price || !productImage) {
+  if (!name || !description || !category || !price || !images || images.length < 4) {
     res.status(400);
     throw new ApiError(400, "All fields are required");
   }
@@ -71,25 +73,19 @@ export const addProduct = asyncHandler(async (req, res) => {
   }
 
   const product = await Product.create({
-    productName,
+    name,
     description,
     category,
     price,
-    productImage,
+    images,
     userId: req.user._id,
   });
 
-  existingUser.products.push(product._id);
-  await existingUser.save();
-
-  res.send({
-    success: true,
-    data: product,
-  });
+  res.send(new ApiSuccess(200, product, "Product added successfully"));
 });
 
 export const updateProduct = asyncHandler(async (req, res) => {
-  const { productName, description, category, price } = req.body;
+  const { name, description, category, price, images } = req.body;
 
   const { id } = req.params;
   const { _id } = req.user;
@@ -113,14 +109,11 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   const updatedProduct = await Product.findByIdAndUpdate(
     id,
-    { productName, description, category, price, productImage:product.productImage },
-    { new: true}
+    { name, description, category, price, images },
+    { new: true }
   );
 
-  res.status(200).json({
-    success: true,
-    data: updatedProduct,
-  });
+  res.status(200).json(new ApiSuccess(200, updatedProduct, "Product updated successfully"));
 });
 
 export const deleteProduct = asyncHandler(async (req, res) => {
@@ -148,8 +141,5 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  res.status(200).json({
-    success: true,
-    data: deletedProduct,
-  });
+  res.status(200).json(new ApiSuccess(200, deletedProduct, "Product deleted successfully"));
 });

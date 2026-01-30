@@ -9,9 +9,11 @@ import productRouter from "./routers/Product.router.js"
 import wishlistRouter from "./routers/Wishlist.router.js"
 import rentRouter from "./routers/Rent.router.js"
 import dashboardRouter from "./routers/Dashboard.router.js"
+import profileRouter from "./routers/Profile.router.js"
 
 dotenv.config()
 import connectDB from "./database/connection.js"
+import { GlobalError } from "./utils/GlobalError.js"
 const app = express()
 
 
@@ -28,10 +30,12 @@ connectDB().then(()=>{
     process.exit(1)
 })
 
-app.use("/api/v1/auth",authRouter)
-app.use("/api/v1/product",productRouter)
-app.use("/api/v1/review",reviewRouter)
-app.use("/api/v1/wishlist",wishlistRouter)
-app.use("/api/v1/payment", rentRouter)
-app.use("/api/v1/dashboard", dashboardRouter)
+app.use("/api/v2/auth",authRouter)
+app.use("/api/v2/profile",profileRouter)
+app.use("/api/v2/product",productRouter)
+app.use("/api/v2/review",reviewRouter)
+app.use("/api/v2/wishlist",wishlistRouter)
+app.use("/api/v2/payment", rentRouter)
+app.use("/api/v2/dashboard", dashboardRouter)
 
+app.use(GlobalError)
