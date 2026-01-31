@@ -3,7 +3,7 @@ import { handleUpload } from "../utils/imageupload";
 import toast from "react-hot-toast";
 import axios from "axios";
 import {useNavigate} from "react-router-dom"
-const Register = ({ location }) => {
+const RegisterForm = ({ location }) => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
@@ -196,4 +196,4 @@ const Register = ({ location }) => {
   );
 };
 
-export default Register;
+export default RegisterForm;

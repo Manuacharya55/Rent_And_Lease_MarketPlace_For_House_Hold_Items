@@ -24,7 +24,9 @@ const ProductsPage = () => {
         }
       );
 
+      console.log(response)
       if (response.data.success) {
+        console.log(response)
         setIsLoading(false);
         setProducts(response.data.data);
       }

@@ -29,7 +29,7 @@ const NavBar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to={"/addproduct"}>
+          <NavLink to={"/add-product"}>
             <PlusCircle />
             <div id="tooltip">Add Product</div>
           </NavLink>

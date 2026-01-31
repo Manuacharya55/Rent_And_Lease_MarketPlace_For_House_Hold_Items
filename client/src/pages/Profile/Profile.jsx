@@ -1,0 +1,111 @@
+import React, { useState, useEffect } from 'react';
+import '../../style/profile.css';
+import { Edit2, MapPin, Package, Clock, Calendar, Box, LogOut, Camera } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const Profile = () => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    // Mock Fetch Method
+    useEffect(() => {
+        const fetchProfile = async () => {
+            // Simulate API delay
+            setTimeout(() => {
+                setUser({
+                    name: "John Doe",
+                    email: "john.doe@example.com",
+                    phone: "+91 98765 43210",
+                    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop",
+                    address: "123, Green Street, Tech Park, Bangalore, Karnataka - 560001"
+                });
+                setLoading(false);
+            }, 1000);
+        };
+        fetchProfile();
+    }, []);
+
+    if (loading) return <div className="profile-loading">Loading Profile...</div>;
+
+    return (
+        <div className="profile-container">
+            {/* Header Section with Avatar */}
+            <div className="profile-header">
+                <div className="avatar-wrapper">
+                    <img src={user.avatar} alt="Profile" className="profile-avatar" />
+                    <button className="edit-avatar-btn">
+                        <Camera size={18} />
+                    </button>
+                </div>
+                <h1 className="profile-name">{user.name}</h1>
+                <p className="profile-role">Member since 2026</p>
+            </div>
+
+            <div className="profile-content-grid">
+                {/* Personal Details Card */}
+                <div className="profile-card details-card">
+                    <div className="card-header">
+                        <h3>Personal Details</h3>
+                        <button className="icon-btn"><Edit2 size={16} /></button>
+                    </div>
+                    <div className="details-list">
+                        <div className="detail-item">
+                            <span className="label">Name</span>
+                            <span className="value">{user.name}</span>
+                            
+                        </div>
+                        <div className="detail-item">
+                            <span className="label">Email</span>
+                            <span className="value">{user.email}</span>
+                            
+                        </div>
+                        <div className="detail-item">
+                            <span className="label">Phone</span>
+                            <span className="value">{user.phone}</span>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                {/* Address Card */}
+                <div className="profile-card address-card">
+                    <div className="card-header">
+                        <h3>Address</h3>
+                        <Link to="/add-address" className="icon-btn"><Edit2 size={18}/></Link>
+                    </div>
+                    <div className="address-content">
+                        <MapPin size={24} className="address-icon" />
+                        <p>{user.address}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Quick Links Section */}
+            <h2 className="section-title">Quick Actions</h2>
+            <div className="quick-links-grid">
+                <Link to="/dashboard/items" className="quick-link-card purple">
+                    <Box size={32} />
+                    <span>Manage Products</span>
+                </Link>
+                <Link to="/dashboard/orders" className="quick-link-card orange">
+                    <Package size={32} />
+                    <span>My Orders</span>
+                </Link>
+                <Link to="/dashboard/orders" className="quick-link-card blue">
+                    <Clock size={32} />
+                    <span>Today's Order</span>
+                </Link>
+                <Link to="/dashboard/orders" className="quick-link-card green">
+                    <Calendar size={32} />
+                    <span>Order History</span>
+                </Link>
+                <Link to="/dashboard/leased" className="quick-link-card pink">
+                    <Clock size={32} />
+                    <span>Upcoming Orders</span>
+                </Link>
+            </div>
+        </div>
+    );
+};
+
+export default Profile;

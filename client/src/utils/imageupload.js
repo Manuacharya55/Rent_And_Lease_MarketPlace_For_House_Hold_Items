@@ -17,7 +17,6 @@ export const handleUpload = async (file) => {
       file,
       [Permission.read(Role.any())] // Public access
     );
-
     const fileUrl = storage.getFileView("67b7203b0016cae0edb1", response.$id);
     return fileUrl;
   } catch (error) {

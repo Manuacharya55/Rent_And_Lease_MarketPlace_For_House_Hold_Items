@@ -8,18 +8,18 @@ export const AuthProvider = ({ children }) => {
   const [wishlist, setWishlist ] = useState([]);
   const [isLoggedin,setIsLoggedIn] = useState(false)
   
-  const setToken = (token, role) => {
+  const setToken = (token, id) => {
     localStorage.setItem("token", token);
-    localStorage.setItem("role", role);
-    setUser({ token, role });
+    localStorage.setItem("id", id);
+    setUser({ token, id });
     setIsLoggedIn(true);
   };
 
   const getToken = () => {
     const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
-    if(token&&role){
-      setUser({ token, role });
+    const id = localStorage.getItem("id");
+    if(token&&id){
+      setUser({ token, id });
       setIsLoggedIn(true)
     }
   };
@@ -57,7 +57,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
   
-  return <AuthContext.Provider value={{setToken,getToken,user,isLoggedin,wishlist, setWishlist}}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    setUser(null);
+    setIsLoggedIn(false);
+  };
+
+  return <AuthContext.Provider value={{setToken,getToken,user,isLoggedin,wishlist, setWishlist, logout}}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

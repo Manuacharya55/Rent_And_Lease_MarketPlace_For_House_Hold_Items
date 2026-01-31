@@ -1,51 +1,54 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./style/form.css";
-import "./style/NavBar.css";
-import "./style/profile.css";
-import "./style/productdescription.css";
-import "./style/card.css";
-import "./style/dashboard.css";
-import "./style/homepage.css";
 
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import ProfileCard from "./components/ProfileCard";
-import AddProductPage from "./pages/AddProductPage";
-import ProductDescriptionPage from "./pages/ProductDescriptionPage";
+import "./index.css";
+
+import Profile from "./pages/Profile/Profile";
+// import AddProductPage from "./pages/AddProductPage";
+import ViewProducts from "./pages/Products/ViewProducts";
+import ViewSingleProduct from "./pages/Products/ViewSingleProduct";
 import ProductsPage from "./pages/ProductsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProtectedLayout from "./components/ProtectedLayout";
-import HomePage from "./pages/HomePage";
-import WishlistPage from "./pages/WishlistPage";
+import HomePage from "./pages/Home/HomePage";
+import Wishlist from "./pages/Profile/Wishlist";
 import DashBoard from "./pages/DashBoard";
-import DashBoardProductPage from "./pages/DashBoardProductPage";
+import ManageProducts from "./pages/Products/ManageProducts";
 import EditProductPage from "./pages/EditProductPage";
 import CheckOutPage from "./pages/CheckOutPage";
 import LeasedProducts from "./pages/LeasedProducts";
 import MyOrders from "./pages/MyOrders";
-
+import AddProducts from "./pages/Products/AddProducts";
+import EditProduct from "./components/EditProduct";
+import EditProducts from "./pages/Products/EditProducts";
+import Register from "./pages/Auth/Register";
+import Login from "./pages/Auth/Login";
+import AddAddress from "./pages/Address/AddAddress";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/test" element={<EditProduct/>} />
         <Route element={<ProtectedRoute />}>
+            <Route path="/add-address" element={<AddAddress />} />
           <Route element={<ProtectedLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/myprofile" element={<ProfileCard />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/product/:id" element={<ProductDescriptionPage />} />
-            <Route path="/addProduct" element={<AddProductPage />} />
+            <Route path="/myprofile" element={<Profile />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+
+            <Route path="/products" element={<ViewProducts />} />
+            <Route path="/product/:id" element={<ViewSingleProduct />} />
+            <Route path="/add-product" element={<AddProducts />} />
+
             <Route path="/checkout/:id" element={<CheckOutPage />} />
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/dashboard/insights" element={<DashBoard />} />
-            <Route path="/dashboard/items" element={<DashBoardProductPage />} />
+            <Route path="/dashboard/items" element={<ManageProducts />} />
             <Route path="/dashboard/leased" element={<LeasedProducts />} />
             <Route path="/dashboard/orders" element={<MyOrders />} />
             <Route path="/dashboard/insights" element={<DashBoard />} />
-            <Route path="/dashboard/edit/:id" element={<EditProductPage />} />
+            <Route path="/dashboard/edit/:id" element={<EditProducts />} />
             
           </Route>
         </Route>
