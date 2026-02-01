@@ -3,15 +3,16 @@ import {
   addComment,
   editComment,
   deleteComment,
+  getAllComments,
 } from "../controllers/Review.controller.js";
 import { verifyUser } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.route("/:id").post(verifyUser, addComment);
+router.route("/:productId").get(verifyUser,getAllComments).post(verifyUser, addComment);
 
 router
-  .route("/:id/:commentId")
+  .route("/:productId/:commentId")
   .patch(verifyUser, editComment)
   .delete(verifyUser, deleteComment);
 

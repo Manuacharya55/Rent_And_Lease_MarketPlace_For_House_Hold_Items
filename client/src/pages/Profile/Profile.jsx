@@ -2,28 +2,38 @@ import React, { useState, useEffect } from 'react';
 import '../../style/profile.css';
 import { Edit2, MapPin, Package, Clock, Calendar, Box, LogOut, Camera } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getData } from '../../API/axios';
+import { useAuth } from '../../context/Auth';
 
 const Profile = () => {
-    const [user, setUser] = useState(null);
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const { user } = useAuth();
     // Mock Fetch Method
+
+    const fetchProfile = async () => {
+        if (!user?.token) return;
+        setLoading(true);
+        const response = await getData("profile/my-profile", {}, user?.token);
+        if(response?.success){
+            setData(response?.data);
+        }
+        console.log(response)
+        setLoading(false);
+    }
     useEffect(() => {
-        const fetchProfile = async () => {
-            // Simulate API delay
-            setTimeout(() => {
-                setUser({
-                    name: "John Doe",
-                    email: "john.doe@example.com",
-                    phone: "+91 98765 43210",
-                    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop",
-                    address: "123, Green Street, Tech Park, Bangalore, Karnataka - 560001"
-                });
-                setLoading(false);
-            }, 1000);
-        };
-        fetchProfile();
-    }, []);
+        if(user?.token){
+            fetchProfile();
+        }
+
+                // setData({
+                //     name: "John Doe",
+                //     email: "john.doe@example.com",
+                //     phone: "+91 98765 43210",
+                //     avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop",
+                //     address: "123, Green Street, Tech Park, Bangalore, Karnataka - 560001"
+                // });
+    }, [user?.token]);
 
     if (loading) return <div className="profile-loading">Loading Profile...</div>;
 
@@ -37,8 +47,8 @@ const Profile = () => {
                         <Camera size={18} />
                     </button>
                 </div>
-                <h1 className="profile-name">{user.name}</h1>
-                <p className="profile-role">Member since 2026</p>
+                <h1 className="profile-name">{data.name}</h1>
+                {/* <p className="profile-role">{data.createdAt.split("T")[0]}</p> */}
             </div>
 
             <div className="profile-content-grid">
@@ -51,18 +61,18 @@ const Profile = () => {
                     <div className="details-list">
                         <div className="detail-item">
                             <span className="label">Name</span>
-                            <span className="value">{user.name}</span>
-                            
+                            <span className="value">{data?.user?.name}</span>
+
                         </div>
                         <div className="detail-item">
                             <span className="label">Email</span>
-                            <span className="value">{user.email}</span>
-                            
+                            <span className="value">{data?.user?.email}</span>
+
                         </div>
                         <div className="detail-item">
                             <span className="label">Phone</span>
-                            <span className="value">{user.phone}</span>
-                            
+                            <span className="value">{data?.user?.phonenumber}</span>
+
                         </div>
                     </div>
                 </div>
@@ -71,11 +81,11 @@ const Profile = () => {
                 <div className="profile-card address-card">
                     <div className="card-header">
                         <h3>Address</h3>
-                        <Link to="/add-address" className="icon-btn"><Edit2 size={18}/></Link>
+                        <Link to="/add-address" className="icon-btn"><Edit2 size={18} /></Link>
                     </div>
                     <div className="address-content">
                         <MapPin size={24} className="address-icon" />
-                        <p>{user.address}</p>
+                        <p>{data?.addresses.address}</p>
                     </div>
                 </div>
             </div>

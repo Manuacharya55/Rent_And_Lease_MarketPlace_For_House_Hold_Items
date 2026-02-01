@@ -51,11 +51,11 @@ export const AuthProvider = ({ children }) => {
     getToken();
   }, []);
 
-  useEffect(() => {
-    if (user?.token) {
-      loadWishlist();
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user?.token) {
+  //     loadWishlist();
+  //   }
+  // }, [user]);
   
   const logout = () => {
     localStorage.removeItem("token");

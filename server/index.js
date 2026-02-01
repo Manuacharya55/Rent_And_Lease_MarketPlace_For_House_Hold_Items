@@ -33,9 +33,9 @@ connectDB().then(()=>{
 app.use("/api/v2/auth",authRouter)
 app.use("/api/v2/profile",profileRouter)
 app.use("/api/v2/product",productRouter)
-app.use("/api/v2/review",reviewRouter)
+app.use("/api/v2/reviews",reviewRouter)
 app.use("/api/v2/wishlist",wishlistRouter)
-app.use("/api/v2/payment", rentRouter)
+app.use("/api/v2/rent", rentRouter)
 app.use("/api/v2/dashboard", dashboardRouter)
 
 app.use(GlobalError)

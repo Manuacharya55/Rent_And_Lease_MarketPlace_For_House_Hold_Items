@@ -2,41 +2,112 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Product } from "../models/Product.model.js";
 import { User } from "../models/User.model.js";
+import { Wishlist } from "../models/Wishlist.model.js";
+import ApiSuccess from "../utils/ApiSuccess.js";
+import mongoose from "mongoose";
 
 export const listAllWishlist = asyncHandler(async (req, res) => {
   const { _id } = req.user;
 
-  const wishlist = await User.findById(_id).populate("wishlist");
+  const wishlist = await Wishlist.aggregate([
+  {
+    $match: {
+      user: new mongoose.Types.ObjectId(_id)
+    }
+  },
+  {
+    $lookup: {
+      from: "products",
+      localField: "productId",
+      foreignField: "_id",
+      as: "product"
+    }
+  },
+  {
+    $unwind: "$product"
+  },{
+    $project: {
+      product: {
+        _id: 1,
+        name: 1,
+        category: 1,
+        price: 1,
+        images: 1,
+        userId: 1 // needed temporarily for address lookup
+      }
+    }
+  },
+  {
+    $lookup: {
+      from: "addresses",
+      localField: "product.userId",
+      foreignField: "user",
+      as: "address"
+    }
+  },{
+    $project: {
+      product: {
+        _id: 1,
+        name: 1,
+        category: 1,
+        price: 1,
+        images: 1
+      },
+      address: {
+        $map: {
+          input: "$address",
+          as: "addr",
+          in: {
+            state: "$$addr.state",
+            district: "$$addr.district"
+          }
+        }
+      }
+    }
+  }
+]);
+
+
 
   if (!wishlist) {
     throw new ApiError(400, "No wishlist found");
   }
 
-  res.send({
-    success: true,
-    data: wishlist.wishlist,
-  });
+  res.status(200).json(new ApiSuccess(200, wishlist, "Wishlist fetched successfully"));
 });
 
 export const addProductToWishlist = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { _id } = req.user;
 
-  console.log("log -1")
+
   const existingUser = await User.findById(_id);
+
   if (!existingUser) {
     throw new ApiError(400, "No such user exists");
   }
 
-  existingUser.wishlist.findIndex((product) => product == id) === -1 &&
-    existingUser.wishlist.push(id);
+  const existingProduct = await Product.findById(id);
 
-  await (await existingUser.save()).populate("wishlist");
+  if (!existingProduct) {
+    throw new ApiError(400, "No such product exists");
+  }
 
-  res.send({
-    success: true,
-    data: existingUser.wishlist,
+  const existingWishlist = await Wishlist.findOne({
+    user: _id,
+    productId: id,
   });
+
+  if (existingWishlist) {
+    throw new ApiError(400, "Product already exists in wishlist");
+  }
+
+  const wishlist = await Wishlist.create({
+    user: _id,
+    productId: id,
+  });
+
+  res.status(200).json(new ApiSuccess(200, wishlist, "Product added to wishlist"));
 });
 
 export const removeProductFromWishlist = asyncHandler(async (req, res) => {
@@ -48,15 +119,14 @@ export const removeProductFromWishlist = asyncHandler(async (req, res) => {
     throw new ApiError(400, "No such user exists");
   }
 
-  const index = existingUser.wishlist.findIndex((product) => product == id);
-  if (index === -1) {
-    throw new ApiError(400, "Product not found in wishlist");
-  }
-
-  existingUser.wishlist.splice(index, 1);
-  await existingUser.save();
-  res.send({
-    success: true,
-    data: existingUser.wishlist,
+  const wishlist = await Wishlist.deleteOne({
+    user: _id,
+    productId: id,
   });
+
+  if(!wishlist){
+    throw new ApiError(400, "No wishlist found");
+  }
+  
+  res.status(200).json(new ApiSuccess(200, wishlist, "Product removed from wishlist"));
 });

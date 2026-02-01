@@ -1,15 +1,15 @@
 import { Schema,model } from "mongoose";
 
 const RentSchema = new Schema({
-    ownerId:{
+    owner:{
         type:Schema.Types.ObjectId,
         ref:"User"
     },
-    purchaserId:{
+    borrower:{
         type:Schema.Types.ObjectId,
         ref:"User"
     },
-    productId:{
+    product:{
         type:Schema.Types.ObjectId,
         ref:"Product"
     },
@@ -21,14 +21,14 @@ const RentSchema = new Schema({
         type:Date,
         required:[true,"Return date is required"]
     },
-    totalAmount:{
+    amount:{
         type:Number,
         required:[true,"Total amount is required"]
     },
     status:{
         type:String,
-        enum:["Not Returned","Returned"],
-        default:"Not Returned"
+        enum:["not borrowed","borrowed","returned","overdue"],
+        default:"not borrowed"
     },
     paymentId:{
         type:String

@@ -52,8 +52,8 @@ const RegisterForm = ({ handleSubmit, isProcessing }) => {
 
   return (
     <form onSubmit={handleFormSubmit(onSubmit)} className="grid-form">
-      <div className="input-group">
-        <label htmlFor="name">Name</label>
+      <div className="auth-input-group">
+        <label htmlFor="name">Enter Your Name</label>
         <input
           type="text"
           id="name"
@@ -63,8 +63,8 @@ const RegisterForm = ({ handleSubmit, isProcessing }) => {
         {errors.name && <span className="error-message">{errors.name.message}</span>}
       </div>
 
-      <div className="input-group">
-        <label htmlFor="email">Email</label>
+      <div className="auth-input-group">
+        <label htmlFor="email">Enter Your Email</label>
         <input
           type="email"
           id="email"
@@ -74,8 +74,8 @@ const RegisterForm = ({ handleSubmit, isProcessing }) => {
         {errors.email && <span className="error-message">{errors.email.message}</span>}
       </div>
 
-      <div className="input-group">
-        <label htmlFor="phonenumber">Phone Number</label>
+      <div className="auth-input-group">
+        <label htmlFor="phonenumber">Enter Your Phone Number</label>
         <input
           type="tel"
           id="phonenumber"
@@ -85,8 +85,8 @@ const RegisterForm = ({ handleSubmit, isProcessing }) => {
         {errors.phonenumber && <span className="error-message">{errors.phonenumber.message}</span>}
       </div>
 
-      <div className="input-group">
-        <label htmlFor="password">Password</label>
+      <div className="auth-input-group">
+        <label htmlFor="password">Enter Your Password</label>
         <input
           type="password"
           id="password"
@@ -96,13 +96,7 @@ const RegisterForm = ({ handleSubmit, isProcessing }) => {
         {errors.password && <span className="error-message">{errors.password.message}</span>}
       </div>
 
-      <div className="input-group span-2">
-         {/* Custom Image component integration */}
-         {/* Note: The Image component uses internal input logic but passes change event up. 
-             We intercept to update RHF state and local preview. 
-             The Image component expects 'index' but we can use it for unique ID if needed or just omit if optional/handled internal.
-             Based on Image.jsx: id={`custom-image-${index}`}
-         */}
+      <div className="auth-input-group span-2">
          <Image 
             label="Upload Avatar" 
             index="register-avatar" 

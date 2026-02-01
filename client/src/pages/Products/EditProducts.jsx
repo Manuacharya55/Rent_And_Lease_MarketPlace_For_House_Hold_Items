@@ -4,45 +4,35 @@ import { useAuth } from "../../context/Auth";
 import ProductForm from "../../Forms/ProductForm";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { handleUpload } from "../../utils/imageupload";
+import { getData, patchData } from "../../API/axios";
 
 const EditProducts = () => {
-  const [isLoading, setIsLoading] = useState([]);
   const navigate = useNavigate();
   const { user } = useAuth();
   const { id } = useParams();
 
-  const [form, setForm] = useState({
-    productName: "",
-    description: "",
-    category: "",
-    price: "",
-    productImage: [],
-  });
+  const [defaultValues, setDefaultValues] = useState(null);
+  const [productImages, setProductImages] = useState([]);
 
   const loadProduct = async () => {
-    if (!user) return;
+    if (!user || !id) return;
 
     try {
-      const response = await axios.get(
-        `http://localhost:4000/api/v1/product/${id}`,
-        {
-          headers: {
-            "Content-type": "application/json",
-            "auth-token": user.token,
-          },
-        },
+      const response = await getData(
+        `product/${id}`,{},user?.token
       );
 
-      if (response.data.success) {
-        const { data } = response.data;
-        console.log(data);
-        setForm({
-          productName: data.productName,
+      if (response.success) {
+        const { data } = response;
+        console.log(data)
+        setDefaultValues({
+          name: data.name,
           description: data.description,
           category: data.category,
           price: data.price,
-          productImage: data.productImage,
         });
+        setProductImages(data.images || []);
       }
     } catch (error) {
       console.log(error);
@@ -50,83 +40,69 @@ const EditProducts = () => {
   };
 
   useEffect(() => {
-    if (user.token) loadProduct();
-  }, [user]);
+    if (user?.token) loadProduct();
+  }, [user, id]);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleFileUpload = async (input, index) => {
+    if (index === undefined || index === null) {
+      return;
+    }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    let file;
+    if (input && input.target && input.target.files)
+      file = input.target.files[0];
+    else file = input;
 
-    
+    if (!file) return;
+
     try {
-      const response = await axios.patch(
-        `http://localhost:4000/api/v1/product/${id}`,
-        form,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": user.token,
-          },
-        },
-      );
+      const url = await toast.promise(handleUpload(file), {
+        loading: "Uploading image...",
+        success: "Image uploaded successfully!",
+        error: "Failed to upload image.",
+      });
 
-      if (response.data.success) {
-        toast.success("Product updated successfully");
-        console.log(response.data.data);
-        navigate("/dashboard");
-      }
+      setProductImages((prev) => {
+        const images = [...prev];
+        images[index] = url;
+        return images;
+      });
     } catch (error) {
-      console.log(error);
-      toast.error("Please upload image");
+      console.error("Upload error:", error);
+      toast.error("Something went wrong");
     }
   };
 
-    const handleFileUpload = async (input, index) => {
-      // Accept either a File (from Image component) or an Event (from input)
-      if (index === undefined || index === null) {
-        console.warn("handleFileUpload called without index", index);
-        return;
-      }
-  
-      let file;
-      if (input && input.target && input.target.files)
-        file = input.target.files[0];
-      else file = input;
-  
-      if (!file) return;
-  
-      try {
-        const url = await toast.promise(handleUpload(file), {
-          loading: "Uploading image...",
-          success: "Image uploaded successfully!",
-          error: "Failed to upload image.",
-        });
-  
-        setData((prev) => {
-          const images = Array.isArray(prev.productImage)
-            ? [...prev.productImage]
-            : [];
-          images[index] = url;
-          return { ...prev, productImage: images };
-        });
-      } catch (error) {
-        console.error("Upload error:", error);
-        toast.error("Something went wrong");
-      }
+
+  const handleSubmit = async (formData) => {
+    const payload = {
+      ...formData,
+      productImage: productImages,
     };
+
+      const response = await patchData(
+        `product/${id}`,
+        payload,
+        user?.token
+      );
+
+      if (response.success) {
+        navigate("/dashboard/items");
+      }
+
+  };
 
   return (
     <div id="container">
       <div id="form-holder">
-        <ProductForm
-            data={form}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
+        {defaultValues && (
+          <ProductForm
+            defaultValues={defaultValues}
+            images={productImages}
+            onSubmit={handleSubmit}
             handleFileUpload={handleFileUpload}
-        />
+          />
+        )}
       </div>
     </div>
   );

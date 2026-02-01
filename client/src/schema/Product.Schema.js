@@ -17,7 +17,7 @@ export const ProductSchema = z.object({
             "garden",
         ],
         {
-            required_error: "Product category is required",
+            // required_error: "Product category is required",
             invalid_type_error: "Invalid category",
         }
     ),

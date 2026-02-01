@@ -97,35 +97,30 @@ form a{
 
 #edit-image-holder{
   width: 100%;
-
   display: grid;
-  grid-template-columns: 120px 120px;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
   align-items: center;
   justify-content: center;
   gap: 20px;
 }
 
 #edit-image-holder img{
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 150px; /* Fixed height for consistency */
   border-radius: 10px;
+  object-fit: cover;
 }
 
-/* Image components STYLES */
+/* Image components STYLES override */
 .image-component {
   width: 100%;
-  max-width: 600px;
-  height: 120px;
-}
-
-.image-component span {
-  display: block;
-  margin-bottom: 5px;
+  max-width: none; /* remove max-width limit */
+  height: auto;
 }
 
 .custom-image-holder {
   width: 100%;
-  height: 100px;
+  height: 150px; /* Match image height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,19 +129,20 @@ form a{
 }
 
 .custom-image-holder svg {
-  width: 100%;
-  height: 100%;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: 0;
   color: lightgray;
 }
 
 .custom-image-holder img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 10px;
 }
+
 .custom-image {
   display: none;
   margin-bottom: 10px;
@@ -166,9 +162,9 @@ form a{
     grid-template-columns: 1fr;
   }
 
-  #form-grid select, #form-grid textarea, #form-grid button{
-  grid-column: span 1;
-}
+  #form-grid select, #form-grid textarea, #form-grid button, .span-2 {
+    grid-column: span 1;
+  }
 }
 
 #register-form {
@@ -187,4 +183,41 @@ form a{
 
 #register-form h1 {
   grid-column: span 2;
+}
+
+/* New ProductForm Styles - Overrides strictly for ProductForm if needed, otherwise use auth-input-group */
+/* Ensuring inputs match auth-input-group style if not covered globally or if we want specific overrides */
+
+/* Error styles */
+.auth-input-group input.error,
+.auth-input-group select.error,
+.auth-input-group textarea.error {
+    border-color: #dc3545;
+}
+
+.error-text {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+/* Image grid container override */
+.image-grid-container {
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #FF8C00;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #e07b00;
 }

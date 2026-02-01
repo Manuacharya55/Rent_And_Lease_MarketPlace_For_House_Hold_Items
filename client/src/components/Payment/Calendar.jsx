@@ -3,7 +3,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./MyCalendar.css";
 
-const MyCalendar = ({ setSelectedDate, selectedDate, bookedDates = [] }) => {
+const Calendar = ({ setSelectedDate, selectedDate, bookedDates = [] }) => {
 
   const handleDateClick = (date) => {
     // Offset for timezone to ensure the correct date string is picked
@@ -47,4 +47,4 @@ const tileClassName = ({ date, view }) => {
   );
 };
 
-export default MyCalendar;
+export default Calendar;

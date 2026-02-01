@@ -27,7 +27,7 @@ const Register = () => {
        <img src="https://img.freepik.com/premium-photo/house-with-black-roof-black-door-that-says-welcome-front_1261459-3805.jpg?ga=GA1.1.264547320.1740062602&semt=ais_hybrid" alt="Register" />
       </div>
       <div id="form-holder">
-        <h2>Create Account</h2>
+        <h2 style={{marginBottom: "20px"}}>Create Account</h2>
         <RegisterForm handleSubmit={handleRegister} isProcessing={isProcessing} />
       </div>
     </div>

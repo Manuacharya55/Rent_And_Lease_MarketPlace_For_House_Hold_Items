@@ -20,7 +20,7 @@ const AddAddress = () => {
 
     const handleSubmit = async (data) => {
         setIsProcessing(true);
-        const response = await postData("/address", data, user?.token);
+        const response = await postData("profile/address", data, user?.token);
         if(response.success){
             console.log(response)
             navigate("/")

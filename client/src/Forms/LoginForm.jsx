@@ -19,8 +19,8 @@ const LoginForm = ({ handleSubmit, isProcessing }) => {
 
   return (
     <form onSubmit={handleFormSubmit(onSubmit)}>
-      <div className="input-group">
-        <label htmlFor="email">Email</label>
+      <div className="auth-input-group">
+        <label htmlFor="email">Enter Your Email</label>
         <input
           type="email"
           id="email"
@@ -30,7 +30,7 @@ const LoginForm = ({ handleSubmit, isProcessing }) => {
         {errors.email && <span className="error-message">{errors.email.message}</span>}
       </div>
 
-      <div className="input-group">
+      <div className="auth-input-group">
         <label htmlFor="password">Password</label>
         <input
           type="password"
