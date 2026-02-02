@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addProduct,
   deleteProduct,
+  getProductById,
   getSingleProduct,
   listAllProducts,
   myProducts,
@@ -12,6 +13,7 @@ const router = Router();
 
 router.route("/").get(verifyUser, listAllProducts).post(verifyUser, addProduct);
 router.route("/my-products").get(verifyUser, myProducts);
+router.route("/my-products/:id").get(verifyUser, getProductById);
 router
   .route("/:id")
   .get(verifyUser, getSingleProduct)

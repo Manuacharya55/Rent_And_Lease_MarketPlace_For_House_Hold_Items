@@ -4,53 +4,29 @@ import '../../style/manageproducts.css';
 import { ArrowLeft, Plus, Edit2, Trash2, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { deleteData, getData } from '../../API/axios';
 import { useAuth } from '../../context/Auth';
+import { useProducts } from '../../Hooks/useProducts';
 
 const ManageProducts = () => {
     const navigate = useNavigate();
-    const [data,setData] = useState([])
-    const [isLoading,setIsLoading] = useState(false)
-    const [pagination, setPagination] = useState({
-        currentPage: 1,
-        totalPages: 1,
-        totalDocuments: 0
-    });
 
-    const {user} = useAuth()
-
-
-
-    const fetchProducts = async()=>{
-        setIsLoading(true)
-        try {
-            const response = await getData(`product/my-products?page=${pagination.currentPage}`,{},user?.token)
-            console.log(response)
-            if(response.success){
-                setData(response.data.data)
-                setPagination(response.data.pagination)
-                console.log(response.data)
-            }
-        } catch (error) {
-            console.error(error)
-        }finally{
-            setIsLoading(false)
-        }
-    }
+    const {products,pagination,loading,error,fetchMyProducts,remove} = useProducts()
 
     useEffect(()=>{
-        fetchProducts()
-    },[])
+        fetchMyProducts(pagination.currentPage)
+    },[pagination.currentPage])
 
     const handleDelete = async(id)=>{
         try {
-            const response = await deleteData(`product/${id}`,{},user?.token)
-            console.log(response)
-            if(response.success){
-                setData(data.map(item => item._id === id ? {...item, isActive: !item.isActive} : item))
-            }
+          await remove(id)
+          await fetchMyProducts(pagination.currentPage)
         } catch (error) {
             console.error(error)
         }
     }
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+    
     return (
         <div className="manage-products-container">
             {/* Header */}
@@ -80,7 +56,7 @@ const ManageProducts = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map(product => (
+                        {products.map(product => (
                             <tr key={product._id}>
                                 <td>
                                     <img src={product.images[0]} alt="product" className="mp-img-thumb" />
@@ -88,7 +64,7 @@ const ManageProducts = () => {
                                 <td className="mp-name-cell">{product.name}</td>
                                 <td>{product.category}</td>
                                 <td>{product.price}/day</td>
-                                <td>{product.createdAt}</td>
+                                <td>{product.createdAt.split('T')[0]}</td>
                                 <td>
                                     <span className={`mp-status-badge ${product.isActive ? 'active' : 'inactive'}`}>
                                         {product.isActive ? 'Active' : 'Inactive'}
@@ -114,7 +90,7 @@ const ManageProducts = () => {
             <div className="mp-pagination">
                 <button 
                     disabled={pagination.currentPage === 1}
-                    onClick={() => setPagination(p => ({...p, currentPage: p.currentPage - 1}))}
+                    onClick={() => fetchMyProducts(pagination.currentPage - 1)}
                     className="mp-page-btn"
                 >
                     <ChevronLeft size={18} />
@@ -124,7 +100,7 @@ const ManageProducts = () => {
                 </span>
                 <button 
                     disabled={pagination.currentPage === pagination.totalPages}
-                    onClick={() => setPagination(p => ({...p, currentPage: p.currentPage + 1}))}
+                    onClick={() => fetchMyProducts(pagination.currentPage + 1)}
                     className="mp-page-btn"
                 >
                     <ChevronRight size={18} />

@@ -30,7 +30,7 @@ export const addComment = asyncHandler(async (req, res) => {
     description,
   });
 
-  const data = {userId: existingUser._id, productId: existingProduct._id, rating, description, user: {name: existingUser.name, avatar: existingUser.avatar}}
+  const data = {productId: existingProduct._id, rating, description, user: { _id: existingUser._id, name: existingUser.name, avatar: existingUser.avatar } }
   res.status(201).json(new ApiSuccess(201, data, "Comment added successfully"));
 });
 
@@ -98,35 +98,35 @@ export const getAllComments = asyncHandler(async (req, res) => {
   }
 
   const comments = await Review.aggregate([
-  {
-    $match: {
-      productId: new mongoose.Types.ObjectId(existingProduct._id)
-    }
-  },
-  {
-    $lookup: {
-      from: "users",
-      localField: "userId",
-      foreignField: "_id",
-      as: "user"
-    }
-  },
-  {
-    $unwind: "$user"
-  },
-  {
-    $project: {
-      rating: 1,
-      description: 1,
-      createdAt: 1,
-      user: {
-        _id: "$user._id",
-        name: "$user.name",
-        avatar: "$user.avatar",
+    {
+      $match: {
+        productId: new mongoose.Types.ObjectId(existingProduct._id)
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    {
+      $unwind: "$user"
+    },
+    {
+      $project: {
+        rating: 1,
+        description: 1,
+        createdAt: 1,
+        user: {
+          _id: "$user._id",
+          name: "$user.name",
+          avatar: "$user.avatar",
+        }
       }
     }
-  }
-]);
+  ]);
 
 
   console.log(comments)

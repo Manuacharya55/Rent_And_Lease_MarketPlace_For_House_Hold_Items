@@ -1,74 +1,28 @@
-import { useState } from "react";
-import { handleUpload } from "../../utils/imageupload";
 import toast from "react-hot-toast";
-import axios from "axios";
 import ProductForm from "../../Forms/ProductForm";
-import { useAuth } from "../../context/Auth";
-import { postData } from "../../API/axios";
+
+import { useImageUpload } from "../../Hooks/useImage";
+import { useNavigate } from "react-router-dom";
+import { useProducts } from "../../Hooks/useProducts";
 
 const AddProducts = () => {
-  const [productImages, setProductImages] = useState([]);
-  const { user } = useAuth();
-
-  const handleFileUpload = async (input, index) => {
-    if (index === undefined || index === null) {
-      console.warn("handleFileUpload called without index", index);
-      return;
-    }
-
-    let file;
-    if (input && input.target && input.target.files)
-      file = input.target.files[0];
-    else file = input;
-
-    if (!file) return;
-
-    try {
-      const url = await toast.promise(handleUpload(file), {
-        loading: "Uploading image...",
-        success: "Image uploaded successfully!",
-        error: "Failed to upload image.",
-      });
-
-      setProductImages((prev) => {
-        const images = [...prev];
-        images[index] = url;
-        return images;
-      });
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast.error("Something went wrong");
-    }
-  };
+  const navigate = useNavigate();
+  const { images, uploadAtIndex } = useImageUpload()
+  const { create } = useProducts()
 
   const handleSubmit = async (formData) => {
-    const imageArray = productImages;
 
-    if (imageArray.length < 4 || imageArray.some((i) => !i)) {
+    if (images.length < 4 || images.some((i) => !i)) {
       toast.error("Please upload 4 images");
       return;
     }
-
-    const payload = {
-      ...formData,
-      images: imageArray,
-    };
-
     try {
-      const response = await postData(
-        "product/",
-        payload,
-        user?.token
-      );
+      const response = await create({ ...formData, images: images })
 
       if (response.success) {
-        toast.success("Product added successfully");
-        // setProductImages([]);
-        console.log(response.data)
-        Navigate("/manage-products")
+        navigate("/dashboard/items")
       }
     } catch (error) {
-      console.error(error);
       toast.error("Failed to add product");
     }
   };
@@ -78,8 +32,8 @@ const AddProducts = () => {
       <div id="form-holder">
         <ProductForm
           onSubmit={handleSubmit}
-          images={productImages}
-          handleFileUpload={handleFileUpload}
+          images={images}
+          handleFileUpload={uploadAtIndex}
         />
       </div>
     </div>

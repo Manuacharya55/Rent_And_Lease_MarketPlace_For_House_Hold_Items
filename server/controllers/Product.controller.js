@@ -65,61 +65,93 @@ export const listAllProducts = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiSuccess(200, data, "Products fetched successfully"));
 });
 
-
-// get single product
-export const getSingleProduct = asyncHandler(async (req, res) => {
+export const getProductById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  console.log(id);
-  const product = await Product.aggregate([{
-    $match: {
-      _id: new mongoose.Types.ObjectId(id)
-    }
-  }, {
-    $lookup: {
-      from: "addresses",
-      localField: "userId",
-      foreignField: "user",
-      as: "address"
-    }
-  }, {
-    $unwind: "$address"
-  }, {
-    $project: {
-      name: 1,
-      category: 1,
-      price: 1,
-      images: 1,
-      userId: 1,
-      address: "$address"
-    }
-  }, {
-    $lookup: {
-      from: "users",
-      localField: "userId",
-      foreignField: "_id",
-      as: "user"
-    }
-  }, {
-    $unwind: "$user"
-  }, {
-    $project: {
-      name: 1,
-      category: 1,
-      price: 1,
-      images: 1,
-      userId: 1,
-      address: "$address",
-      user: "$user"
-    }
-  }])
+  const product = await Product.findById(id);
 
   if (!product) {
     throw new ApiError(404, "Product not found");
   }
 
   res.status(200).json(new ApiSuccess(200, product, "Product fetched successfully"));
+})
+
+// get single product
+export const getSingleProduct = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const product = await Product.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(id)
+      }
+    },
+
+    // 🔗 address lookup
+    {
+      $lookup: {
+        from: "addresses",
+        localField: "userId",
+        foreignField: "user",
+        as: "address"
+      }
+    },
+    {
+      $unwind: {
+        path: "$address",
+        preserveNullAndEmptyArrays: true
+      }
+    },
+
+    // 🔗 user lookup
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    {
+      $unwind: "$user"
+    },
+
+    // 🎯 final shape
+    {
+      $project: {
+        name: 1,
+        category: 1,
+        price: 1,
+        images: 1,
+        description: 1,
+
+        address: {
+          address: "$address.address",
+          lat: "$address.location.lat",
+          lng: "$address.location.lng"
+        },
+
+        user: {
+          _id: "$user._id",
+          name: "$user.name",
+          avatar: "$user.avatar",
+          phonenumber: "$user.phonenumber"
+        }
+      }
+    }
+  ]);
+
+  if (!product.length) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  // ✅ return single object, not array
+  res.status(200).json(
+    new ApiSuccess(200, product[0], "Product fetched successfully")
+  );
 });
+
 
 export const addProduct = asyncHandler(async (req, res) => {
   const { name, description, category, price, images } = req.body;

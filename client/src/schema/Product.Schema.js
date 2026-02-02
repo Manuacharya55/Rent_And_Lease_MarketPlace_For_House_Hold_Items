@@ -21,5 +21,5 @@ export const ProductSchema = z.object({
             invalid_type_error: "Invalid category",
         }
     ),
-    price: z.number({ required_error: "Product price is required" }),
+    price: z.number({ required_error: "Product price is required" }).min(50,"price must be at least 50"),
 });

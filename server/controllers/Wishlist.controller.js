@@ -25,17 +25,6 @@ export const listAllWishlist = asyncHandler(async (req, res) => {
   },
   {
     $unwind: "$product"
-  },{
-    $project: {
-      product: {
-        _id: 1,
-        name: 1,
-        category: 1,
-        price: 1,
-        images: 1,
-        userId: 1 // needed temporarily for address lookup
-      }
-    }
   },
   {
     $lookup: {
@@ -45,6 +34,10 @@ export const listAllWishlist = asyncHandler(async (req, res) => {
       as: "address"
     }
   },{
+      $addFields: {
+        address: { $arrayElemAt: ["$address", 0] },
+      },
+    },{
     $project: {
       product: {
         _id: 1,
@@ -54,14 +47,8 @@ export const listAllWishlist = asyncHandler(async (req, res) => {
         images: 1
       },
       address: {
-        $map: {
-          input: "$address",
-          as: "addr",
-          in: {
-            state: "$$addr.state",
-            district: "$$addr.district"
-          }
-        }
+        state: "$address.state",
+        district: "$address.district"
       }
     }
   }

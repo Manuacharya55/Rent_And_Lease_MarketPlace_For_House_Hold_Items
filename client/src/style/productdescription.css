@@ -222,11 +222,6 @@
 }
 
 /* Right Column (Actions) */
-.sticky-card {
-    position: sticky;
-    top: 30px;
-    /* Make the action card sticky */
-}
 
 .action-card {
     background: white;
