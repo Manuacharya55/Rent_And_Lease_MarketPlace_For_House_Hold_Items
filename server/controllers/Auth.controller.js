@@ -36,7 +36,11 @@ export const registerUser = asyncHandler(async (req, res) => {
     user: user,
     token: token
   }
-  res.cookie("token", token).json(new ApiSuccess(200, data, "User Registered Successfully"));
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  }).json(new ApiSuccess(200, data, "User Registered Successfully"));
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
@@ -54,12 +58,20 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const isMatch = await existingUser.isPasswordCorrect(password);
 
+  if (!isMatch) {
+    throw new ApiError(400, "Invalid credentials");
+  }
+
   const token = existingUser.generateToken();
 
   const data = {
     user: existingUser,
     token: token
   }
-  res.cookie("token", token).json(new ApiSuccess(200, data, "User Logged In Successfully"));
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  }).json(new ApiSuccess(200, data, "User Logged In Successfully"));
 });
 
