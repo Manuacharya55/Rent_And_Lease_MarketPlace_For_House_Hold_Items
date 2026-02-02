@@ -6,6 +6,6 @@ export const GlobalError = (err, req, res, next) => {
     res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
-        error: err
+        error: process.env.NODE_ENV === "development" ? err : undefined
     })
 }

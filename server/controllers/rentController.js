@@ -42,7 +42,17 @@ export const processPayment = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Invalid amount!");
   }
 
-  const order = Rent.create({
+  // Verify payment with Stripe
+  const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+  if (paymentIntent.status !== 'succeeded') {
+      throw new ApiError(400, "Payment failed or incomplete");
+  }
+  // Verify amount matches what we expect (amount is in cents from frontend)
+  if (paymentIntent.amount !== Number(amount)) {
+      throw new ApiError(400, "Payment amount mismatch");
+  }
+
+  const order = await Rent.create({
     owner: existingOwner._id,
     borrower: existingUser._id,
     product: existingProduct._id,

@@ -35,7 +35,10 @@ export const listAllProducts = asyncHandler(async (req, res) => {
       }
     },
     {
-      $unwind: "$address"
+      $unwind: {
+        path: "$address",
+        preserveNullAndEmptyArrays: true
+      }
     },
     {
       $project: {

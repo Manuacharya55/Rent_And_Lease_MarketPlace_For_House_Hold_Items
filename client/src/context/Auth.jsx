@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getData } from "../API/axios";
 import { useContext, createContext, useLayoutEffect, useState, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -28,19 +28,10 @@ export const AuthProvider = ({ children }) => {
     if (!user?.token) return;
 
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/v1/wishlist/",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token": user.token,
-          },
-        }
-      );
+      const response = await getData('/wishlist/', {}, user.token);
 
-      if (response.data.success) {
-        // console.log(response.data.data);
-        setWishlist(response.data.data);
+      if (response.success) {
+        setWishlist(response.data);
       }
     } catch (error) {
       console.log("Error", error);
@@ -51,11 +42,11 @@ export const AuthProvider = ({ children }) => {
     getToken();
   }, []);
 
-  // useEffect(() => {
-  //   if (user?.token) {
-  //     loadWishlist();
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user?.token) {
+      loadWishlist();
+    }
+  }, [user]);
   
   const logout = () => {
     localStorage.removeItem("token");
