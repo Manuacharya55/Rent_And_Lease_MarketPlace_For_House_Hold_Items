@@ -8,7 +8,7 @@ import reviewRouter from "./routers/Review.router.js"
 import productRouter from "./routers/Product.router.js"
 import wishlistRouter from "./routers/Wishlist.router.js"
 import rentRouter from "./routers/Rent.router.js"
-import dashboardRouter from "./routers/Dashboard.router.js"
+import orderRouter from "./routers/Order.router.js"
 import profileRouter from "./routers/Profile.router.js"
 
 dotenv.config()
@@ -36,6 +36,6 @@ app.use("/api/v2/product",productRouter)
 app.use("/api/v2/reviews",reviewRouter)
 app.use("/api/v2/wishlist",wishlistRouter)
 app.use("/api/v2/rent", rentRouter)
-app.use("/api/v2/dashboard", dashboardRouter)
+app.use("/api/v2/order", orderRouter)
 
 app.use(GlobalError)

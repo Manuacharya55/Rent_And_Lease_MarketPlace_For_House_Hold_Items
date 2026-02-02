@@ -20,15 +20,20 @@ import Checkout from "./pages/Orders/Checkout";
 import OrderPlaced from "./pages/Orders/OrderPlaced";
 import ProtectedRoute from "./Layouts/ProtectedRoute";
 import ProtectedLayout from "./Layouts/ProtectedLayout";
+import MyOrders from "./pages/Orders/MyOrders";
+import TodaysOrder from "./pages/Orders/TodaysOrder";
+import OrderHistory from "./pages/Orders/OrderHistory";
+import EditAddress from "./pages/Address/EditAddress";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/test" element={<EditProducts/>} />
+        <Route path="/test" element={<EditProducts />} />
         <Route element={<ProtectedRoute />}>
-            <Route path="/add-address" element={<AddAddress />} />
+          <Route path="/add-address" element={<AddAddress />} />
+          <Route path="/edit-address/:id" element={<EditAddress />} />
           <Route element={<ProtectedLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/myprofile" element={<Profile />} />
@@ -43,8 +48,11 @@ function App() {
             <Route path="/order-placed" element={<OrderPlaced />} />
 
             <Route path="/dashboard/items" element={<ManageProducts />} />
+            <Route path="/dashboard/orders" element={<MyOrders />} />
+            <Route path="/dashboard/todays-order" element={<TodaysOrder />} />
+            <Route path="/dashboard/orders-history" element={<OrderHistory />} />
             <Route path="/dashboard/edit/:id" element={<EditProducts />} />
-            
+
           </Route>
         </Route>
       </Routes>

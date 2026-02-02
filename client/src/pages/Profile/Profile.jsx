@@ -81,10 +81,10 @@ const Profile = () => {
                 <div className="profile-card address-card">
                     <div className="card-header">
                         <h3>Address</h3>
-                        <Link to="/add-address" className="icon-btn"><Edit2 size={18} /></Link>
+                        <Link to={`/edit-address/${data?.addresses?._id}`}className="icon-btn"><Edit2 size={18} /></Link>
                     </div>
                     <div className="address-content">
-                        <MapPin size={24} className="address-icon" />
+                        <MapPin size={24} className="address-icon"/>
                         <p>{data?.addresses.address}</p>
                     </div>
                 </div>
@@ -101,17 +101,13 @@ const Profile = () => {
                     <Package size={32} />
                     <span>My Orders</span>
                 </Link>
-                <Link to="/dashboard/orders" className="quick-link-card blue">
+                <Link to="/dashboard/todays-order" className="quick-link-card blue">
                     <Clock size={32} />
                     <span>Today's Order</span>
                 </Link>
-                <Link to="/dashboard/orders" className="quick-link-card green">
+                <Link to="/dashboard/orders-history" className="quick-link-card green">
                     <Calendar size={32} />
                     <span>Order History</span>
-                </Link>
-                <Link to="/dashboard/leased" className="quick-link-card pink">
-                    <Clock size={32} />
-                    <span>Upcoming Orders</span>
                 </Link>
             </div>
         </div>

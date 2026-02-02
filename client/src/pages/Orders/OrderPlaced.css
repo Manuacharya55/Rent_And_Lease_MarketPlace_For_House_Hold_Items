@@ -17,6 +17,26 @@
     animation: fadeIn 0.6s ease-out;
 }
 
+.status-yellow {
+    background: #f59e0b;
+    color: #fff;
+}
+
+.status-yellow-dark {
+    background: #b15527;
+    color: #fff;
+}
+
+.status-green {
+    background: #16a34a;
+    color: #fff;
+}
+
+.status-red {
+    background: #ef4444;
+    color: #fff;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
