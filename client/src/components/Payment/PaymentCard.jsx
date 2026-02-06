@@ -41,12 +41,11 @@ const PaymentCard = ({ amount, selectedDate, product }) => {
                 }, user?.token)
 
                 if (response.success) {
-                    console.log(response)
                     navigate("/order-placed")
                 }
             }
         } catch (error) {
-            console.log(error)
+
         }
         setLoading(false);
     };

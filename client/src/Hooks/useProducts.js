@@ -57,7 +57,6 @@ export const useProducts = () => {
             const token = requireAuth();
 
             const response = await getData(`product/my-products?page=${page}`, {}, token)
-            console.log(response.data.pagination)
             if (response.success) {
                 setProducts(response.data.data);
                 setPagination(response.data.pagination);
@@ -79,7 +78,6 @@ export const useProducts = () => {
             const token = requireAuth();
 
             const response = await getData(`product/${id}`, {}, token)
-            console.log(response.data)
             if (response.success) {
                 setProduct(response.data);
             }
@@ -100,9 +98,8 @@ export const useProducts = () => {
             const token = requireAuth();
 
             const response = await getData(`product/my-products/${id}`, {}, token)
-            console.log(response.data)
             if (response.success) {
-                console.log(response.data)
+
                 setProduct(response.data);
             }
 

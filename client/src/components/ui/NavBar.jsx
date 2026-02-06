@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/Auth';
 import { Menu, X, Home, ShoppingBag, Heart, User, LogOut } from 'lucide-react';
+import '../../style/NavBar.css';
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +13,7 @@ const NavBar = () => {
   const handleLogout = () => {
     logout();
     navigate('/login');
+    setIsMenuOpen(false);
   };
 
   const toggleMenu = () => {
@@ -23,7 +25,7 @@ const NavBar = () => {
   };
 
   const isActive = (path) => {
-      return location.pathname === path ? "active" : "";
+    return location.pathname === path ? "active" : "";
   }
 
   return (
@@ -31,7 +33,7 @@ const NavBar = () => {
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo" onClick={closeMenu}>
-           RENT<span className="logo-accent">&</span>LEASE
+          RENT<span className="logo-accent">&</span>LEASE
         </Link>
 
         {/* Mobile Menu Icon */}
@@ -43,33 +45,31 @@ const NavBar = () => {
         <ul className={isMenuOpen ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
             <Link to="/" className={`nav-links ${isActive('/')}`} onClick={closeMenu}>
-               <Home size={18} className="nav-icon" /> Home
+              <Home size={20} className="nav-icon" /> Home
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/products" className={`nav-links ${isActive('/products')}`} onClick={closeMenu}>
-               <ShoppingBag size={18} className="nav-icon" /> Products
+              <ShoppingBag size={20} className="nav-icon" /> Products
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/wishlist" className={`nav-links ${isActive('/wishlist')}`} onClick={closeMenu}>
-               <Heart size={18} className="nav-icon" /> Wishlist
+              <Heart size={20} className="nav-icon" /> Wishlist
             </Link>
           </li>
           <li className="nav-item">
             <Link to="/myprofile" className={`nav-links ${isActive('/myprofile')}`} onClick={closeMenu}>
-               <User size={18} className="nav-icon" /> Profile
+              <User size={20} className="nav-icon" /> Profile
             </Link>
           </li>
-          
-           {/* Mobile Logout Button (Visible inside menu on mobile, or separate on desktop?) 
-               Let's keep it as the last item for simplicity in responsive design. 
-           */}
-           <li className="nav-item logout-item" onClick={handleLogout}>
-              <span className="nav-links logout-btn">
-                <LogOut size={18} className="nav-icon" /> Logout
-              </span>
-           </li>
+
+          {/* Logout */}
+          <li className="nav-item" onClick={handleLogout}>
+            <span className="nav-links logout-btn">
+              <LogOut size={20} className="nav-icon" /> Logout
+            </span>
+          </li>
         </ul>
       </div>
     </nav>

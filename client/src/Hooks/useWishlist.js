@@ -18,7 +18,6 @@ export const useWishlist = () => {
         try {
             setLoading(true)
             const response = await getData(`wishlist`, {}, token)
-            console.log(response.data)
             if (response.success) {
                 setWishlist(response.data)
             }
@@ -35,7 +34,6 @@ export const useWishlist = () => {
         if (!token) return
         try {
             const response = await deleteData(`wishlist/${productId}`, {}, token)
-            console.log(response.data)
             if (response.success) {
                 setWishlist(prev=> prev.filter(item => item.product._id !== productId))
             }
@@ -51,7 +49,6 @@ export const useWishlist = () => {
         try {
             setLoading(true)
             const response = await postData(`wishlist/${productId}`, {}, token)
-            console.log(response.data)
             if (response.success) {
                 setWishlist(prev => [...prev, response.data])
             }

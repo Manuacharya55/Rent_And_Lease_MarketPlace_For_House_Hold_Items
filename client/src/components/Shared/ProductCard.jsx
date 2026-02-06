@@ -17,8 +17,10 @@ const ProductCard = ({
         className="product-card"
         onClick={() => navigate(`/product/${product._id}`)}
       >
-        <div className="card-image-wrapper">
-          <img src={product.images?.[0]} alt={product.name} />
+        <div className="card-image-wrapper"
+          style={{ backgroundImage: `url(${product.images?.[0]})` }}
+        >
+          {/* <img src={product.images?.[0]} alt={product.name} /> */}
 
           <button
             className="card-wishlist-btn"
@@ -54,14 +56,15 @@ const ProductCard = ({
   // ================= WISHLIST CARD =================
   return (
     <div
-      className="wishlist-card"
+      className="product-card"
       onClick={() => navigate(`/product/${product._id}`)}
     >
-      <div className="w-card-image-wrapper">
-        <img src={product.images?.[0]} alt={product.name} />
-
+      <div
+        className="card-image-wrapper"
+        style={{ backgroundImage: `url(${product.images?.[0]})` }}
+      >
         <button
-          className="w-remove-btn"
+          className="card-wishlist-btn"
           onClick={(e) => {
             e.stopPropagation();
             onRemoveWishlist?.(product._id);
@@ -70,29 +73,29 @@ const ProductCard = ({
           <Trash2 size={16} />
         </button>
 
-        <span className="w-card-badge">{product.category}</span>
+        <span className="card-badge">{product.category}</span>
       </div>
 
-      <div className="w-card-details">
-        <div className="w-card-row-top">
-          <h3 className="w-card-title">{product.name}</h3>
+      <div className="card-details">
+        <div className="card-row-top">
+          <h3 className="card-title">{product.name}</h3>
 
-          <div className="w-card-price-block">
-            <span className="w-card-price">{product.price}</span>
-            <span className="w-card-period">per day</span>
+          <div className="card-price-block">
+            <span className="card-price">{product.price}</span>
+            <span className="card-period">per day</span>
           </div>
         </div>
 
-        <p className="w-card-address">
+        <p className="card-address">
           {product.district}, {product.state}
         </p>
 
         <button
-          className="w-move-cart-btn"
           onClick={(e) => {
             e.stopPropagation();
             onRent?.(product._id);
           }}
+          className="card-rent-btn"
         >
           <ShoppingCart size={16} /> Rent Now
         </button>

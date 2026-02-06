@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../style/wishlist.css';
+import '../../style/viewproducts.css';
 import { Trash2, ShoppingCart, ArrowLeft } from 'lucide-react';
 import { deleteData, getData } from '../../API/axios';
 import { useWishlist } from '../../Hooks/useWishlist';

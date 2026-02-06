@@ -152,14 +152,13 @@
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
     text-decoration: none;
 }
 
 .home-button:hover {
     background: #4338ca;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+
 }
 
 .home-button:active {

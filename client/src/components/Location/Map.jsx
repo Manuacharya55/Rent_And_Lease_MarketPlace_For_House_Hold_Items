@@ -29,7 +29,6 @@ const ClickableMap = ({ setLocation }) => {
         const data = await response.json();
 
         if (setLocation) {
-          console.log(data)
           setLocation({
             lat,
             lng,

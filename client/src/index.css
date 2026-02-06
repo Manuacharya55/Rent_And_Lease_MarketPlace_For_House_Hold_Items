@@ -1,14 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-  --background-color: #f9f9f9;
-  --primary-color: #333333;
-  --secondary-color: #666666;
-  --border-color: #e0e0e0;
-  --focus-color: #333333;
-  --border-radius: 8px;
-  --input-bg: #ffffff;
-  --error-color: #ff4d4f;
+  /* Brand Colors - Modern & Stylish */
+  --primary-color: #111827;
+  /* Deep Charcoal - Sophisticated & Neutral */
+  --primary-hover: #374151;
+
+  --accent-color: #4F46E5;
+  /* Indigo - Vibrant & Trustworthy */
+  --accent-hover: #4338CA;
+
+  /* Backgrounds */
+  --background-color: #FAFAFA;
+  /* Clean Off-White */
+  --surface-color: #FFFFFF;
+  --surface-secondary: #F3F4F6;
+
+  /* Typography */
+  --text-main: #1F2937;
+  --text-secondary: #4B5563;
+  --text-light: #9CA3AF;
+
+  /* UI Elements */
+  --border-color: #E5E7EB;
+  --focus-color: #4F46E5;
+  --error-color: #EF4444;
+  --success-color: #10B981;
+
+  /* Layout */
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  --container-width: 1280px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 * {
@@ -61,7 +89,8 @@ body,
 /* Form Styles */
 form {
   width: 100%;
-  max-width: 500px; /* Slightly wider for grid */
+  max-width: 500px;
+  /* Slightly wider for grid */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -73,7 +102,8 @@ form.grid-form {
   gap: 20px;
 }
 
-.input-group,.auth-input-group {
+.input-group,
+.auth-input-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -171,6 +201,7 @@ button[type="submit"]:disabled {
   object-fit: contain;
   border-radius: 10px;
 }
+
 .custom-image {
   display: none;
   margin-bottom: 10px;
@@ -202,13 +233,15 @@ button[type="submit"]:disabled {
   padding: 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center form vertically if it's short, or scroll if long */
+  justify-content: center;
+  /* Center form vertically if it's short, or scroll if long */
   align-items: center;
 }
 
 .form-side form {
-    max-width: 600px;
-    margin: auto; /* To help centering in scrollable area */
+  max-width: 600px;
+  margin: auto;
+  /* To help centering in scrollable area */
 }
 
 @media (max-width: 768px) {
@@ -224,15 +257,16 @@ button[type="submit"]:disabled {
 
   .form-side {
     flex: 1;
-    height: 60vh; /* Remaining height */
+    height: 60vh;
+    /* Remaining height */
     width: 100%;
     padding: 20px;
-    align-items: stretch; 
+    align-items: stretch;
   }
-  
+
   .form-side form {
-      width: 100%;
-      margin: 0;
+    width: 100%;
+    margin: 0;
   }
 }
 
@@ -308,38 +342,46 @@ button[type="submit"]:disabled {
 }
 
 .nav-links .nav-icon {
-    display: none; /* Hide icons on desktop for cleaner look, or keep them. Let's keep them if space allows. */
+  display: none;
+  /* Hide icons on desktop for cleaner look, or keep them. Let's keep them if space allows. */
 }
+
 @media(min-width: 960px) {
-    .nav-links .nav-icon {
-        display: inline-block;
-    }
+  .nav-links .nav-icon {
+    display: inline-block;
+  }
 }
 
 
 /* Logout Button Specifics */
 .logout-btn {
-    cursor: pointer;
-    color: #d9534f; /* Reddish for logout action */
+  cursor: pointer;
+  color: #d9534f;
+  /* Reddish for logout action */
 }
+
 .logout-btn:hover {
-    background-color: #fff1f0;
+  background-color: #fff1f0;
 }
 
 /* Mobile Menu */
 @media screen and (max-width: 960px) {
   .navbar {
-    position: relative; /* Or sticky? Sticky is good on mobile too */
+    position: relative;
+    /* Or sticky? Sticky is good on mobile too */
   }
 
   .nav-menu {
-    display: flex; /* Use flex to push it off screen via transform ?? or display:none. Flex usually better for transitions */
+    display: flex;
+    /* Use flex to push it off screen via transform ?? or display:none. Flex usually better for transitions */
     flex-direction: column;
     width: 100%;
-    height: calc(100vh - 80px); /* Height minus navbar height */
+    height: calc(100vh - 80px);
+    /* Height minus navbar height */
     position: absolute;
     top: 80px;
-    left: -100%; /* Hide off screen */
+    left: -100%;
+    /* Hide off screen */
     opacity: 1;
     transition: all 0.5s ease;
     background: white;
@@ -347,11 +389,11 @@ button[type="submit"]:disabled {
   }
 
   .nav-menu.active {
-    left: 0; /* Slide in */
+    left: 0;
+    /* Slide in */
     opacity: 1;
     transition: all 0.5s ease;
     z-index: 1000;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
   }
 
   .nav-links {
@@ -366,10 +408,11 @@ button[type="submit"]:disabled {
     background-color: #f8f8f8;
     color: #1a1a1a;
   }
-  
+
   .nav-links .nav-icon {
-      display: inline-block; /* Show icons on mobile for clarity */
-      margin-right: 10px;
+    display: inline-block;
+    /* Show icons on mobile for clarity */
+    margin-right: 10px;
   }
 
   .menu-icon {
@@ -378,7 +421,7 @@ button[type="submit"]:disabled {
   }
 }
 
-#address-map{
+#address-map {
   width: 100%;
   display: flex;
   align-items: center;

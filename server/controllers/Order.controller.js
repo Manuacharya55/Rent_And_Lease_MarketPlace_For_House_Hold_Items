@@ -118,7 +118,6 @@ export const getMyOrders = asyncHandler(async (req, res) => {
   };
 
   const existingUser = await User.findById(query.borrower);
-  console.log(query,"mine order")
   if (!existingUser)
     throw new ApiError(404, "User not found!");
 

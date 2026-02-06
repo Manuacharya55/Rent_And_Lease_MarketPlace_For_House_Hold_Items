@@ -1,83 +1,156 @@
-#root{
+/* Navbar Base */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.85);
+    /* Glassmorphish */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    height: 80px;
     display: flex;
-    /* overflow: hidden; */
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
-nav{
-    height: 100%;
-    width: 100px;
-    padding: 30px 0px;
-
+.navbar-container {
     display: flex;
-    flex-direction: column;
+    justify-content: object-fit;
     justify-content: space-between;
     align-items: center;
-
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0px;
-    background-color: white;
-    z-index: 100;
-}
-
-#dashboard-navbar{
-    width: 100%;
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    padding: 40px;
-    justify-content: end;
-}
-
-#dashboard-navbar ul{
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-}
-#avatar{
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-#avatar img{
-    width: 100%;
     height: 100%;
-    object-fit: cover;
+    width: 100%;
+    max-width: var(--container-width);
+    padding: 0 24px;
 }
 
-nav ul{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-nav a{
-    position: relative;
+/* Logo */
+.navbar-logo {
+    color: var(--primary-color);
     text-decoration: none;
-    color: black;
-    transition: 0.5s ease;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
 }
-nav a #tooltip{
-    background-color: white;
-    padding: 5px 14px;
-    border-radius: 5px;
-    z-index: 100;
-    box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
-    position: absolute;
-    top: -8px;
-    left: 30px;
+
+.logo-accent {
+    color: var(--accent-color);
+    font-family: serif;
+    font-style: italic;
+    font-weight: 900;
+    margin: 0 2px;
+}
+
+/* Menu Items */
+.nav-menu {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links:hover,
+.nav-links.active {
+    color: var(--accent-color);
+    background-color: rgba(79, 70, 229, 0.08);
+    /* Accent with opacity */
+}
+
+/* Icons */
+.nav-icon {
+    stroke-width: 2.5px;
+}
+
+/* Logout Button */
+.logout-btn {
+    color: var(--error-color);
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error-color);
+}
+
+.menu-icon {
     display: none;
-    transition: 0.5s ease;
+    cursor: pointer;
+    color: var(--primary-color);
 }
 
-nav a:hover #tooltip{
-    display: block;
-    color: #FF8C00;
-}
+/* Mobile Responsiveness */
+@media screen and (max-width: 960px) {
+    .menu-icon {
+        display: block;
+    }
 
-#logo{
-    width: 100px;
+    .nav-menu {
+        position: absolute;
+        top: -400px;
+        width: 100%;
+        background-color: var(--surface-color);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        gap: 15px;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow-lg);
+
+        /* Animation: Top Down */
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        pointer-events: none;
+
+
+    }
+
+    .nav-menu.active {
+        top: 80px;
+        opacity: 1;
+        pointer-events: auto;
+        height: fit-content;
+        margin-top: 10px;
+        border-radius: 10px;
+        width: 90%;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .nav-item {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav-links {
+        width: 90%;
+        justify-content: center;
+        padding: 12px;
+    }
 }

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 // Components
-import MyCalendar from "../../components/MyCalendar";
+import DatePicker from "../../components/Payment/DatePicker";
 
 // Styles
 import "./checkout.css";
@@ -12,16 +12,18 @@ import { useAuth } from "../../context/Auth";
 import { getData } from "../../API/axios";
 import toast from "react-hot-toast";
 import PaymentCard from "../../components/Payment/PaymentCard";
+import { ArrowLeft } from "lucide-react";
 
 // Stripe Public Key
 const stripePromise = loadStripe(
-    "pk_test_51Qy6OKJx3mIqkvw160yw4AWKGgl1VCmUXHgXRITnhJTAdGEKOt60IvAoyubH3taTF46vPjZQOewZF4xTUja92dpf00ymcli1Rc"
+    import.meta.env.VITE_STRIPE_PUBLIC_KEY
 );
 
 const Checkout = () => {
     const location = useLocation();
     const { id } = useParams();
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ const Checkout = () => {
         setLoading(true);
         try {
             const response = await getData(`/rent/booked-dates/${id}`, {}, user?.token);
-            console.log(response)
+
             if (response.success) {
                 setData(response.data);
                 setClientSecret(response.data.key);
@@ -63,6 +65,11 @@ const Checkout = () => {
         </div>
     ) : (
         <div className="checkout-page">
+            <div className="page-header-actions">
+                <button className="back-btn" onClick={() => navigate(-1)}>
+                    <ArrowLeft size={18} /> Back
+                </button>
+            </div>
             <header className="checkout-header">
                 <h1 className="checkout-title">Checkout</h1>
             </header>
@@ -98,7 +105,7 @@ const Checkout = () => {
                 <section className="checkout-section calendar-section">
                     <h3 className="section-title">Select Dates</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-                        <MyCalendar
+                        <DatePicker
                             selectedDate={selectedDate}
                             setSelectedDate={setSelectedDate}
                             bookedDates={data?.bookedDates}

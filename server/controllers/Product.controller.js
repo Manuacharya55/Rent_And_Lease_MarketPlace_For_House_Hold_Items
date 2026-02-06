@@ -6,7 +6,7 @@ import ApiSuccess from "../utils/ApiSuccess.js";
 import mongoose from "mongoose";
 
 export const listAllProducts = asyncHandler(async (req, res) => {
-  const { category, price, limit, page } = req.query;
+  const { category, price, limit, page, state, district } = req.query;
 
   const query = {
     isActive: true,
@@ -20,12 +20,9 @@ export const listAllProducts = asyncHandler(async (req, res) => {
   if (category) query.category = category;
   if (price) query.price = { $lte: parseFloat(price) };
 
-  const count = await Product.countDocuments(query);
-
-  const products = await Product.aggregate([
-    {
-      $match: query
-    },
+  // Build aggregation pipeline
+  const pipeline = [
+    { $match: query },
     {
       $lookup: {
         from: "addresses",
@@ -34,9 +31,19 @@ export const listAllProducts = asyncHandler(async (req, res) => {
         as: "address"
       }
     },
-    {
-      $unwind: "$address"
-    },
+    { $unwind: "$address" }
+  ];
+
+  // Add state/district filtering after address lookup
+  const addressMatch = {};
+  if (state && state !== 'all') addressMatch["address.state"] = state;
+  if (district && district !== 'all') addressMatch["address.district"] = district;
+
+  if (Object.keys(addressMatch).length > 0) {
+    pipeline.push({ $match: addressMatch });
+  }
+
+  pipeline.push(
     {
       $project: {
         name: 1,
@@ -51,7 +58,32 @@ export const listAllProducts = asyncHandler(async (req, res) => {
     { $skip: skip },
     { $limit: pagelimit },
     { $sort: { createdAt: -1 } }
-  ]);
+  );
+
+  const products = await Product.aggregate(pipeline);
+
+  // Get count with same filters
+  const countPipeline = [
+    { $match: query },
+    {
+      $lookup: {
+        from: "addresses",
+        localField: "userId",
+        foreignField: "user",
+        as: "address"
+      }
+    },
+    { $unwind: "$address" }
+  ];
+
+  if (Object.keys(addressMatch).length > 0) {
+    countPipeline.push({ $match: addressMatch });
+  }
+
+  countPipeline.push({ $count: "total" });
+
+  const countResult = await Product.aggregate(countPipeline);
+  const count = countResult.length > 0 ? countResult[0].total : 0;
 
   const data = {
     data: products,
@@ -157,8 +189,6 @@ export const addProduct = asyncHandler(async (req, res) => {
   const { name, description, category, price, images } = req.body;
 
   if (!name || !description || !category || !price || !images || images.length < 4) {
-    console.log({ name, description, category, price, images })
-    // res.status(400).json();
     throw new ApiError(400, "All fields are required");
   }
 

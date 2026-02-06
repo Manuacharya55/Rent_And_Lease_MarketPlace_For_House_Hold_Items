@@ -18,7 +18,6 @@ export const addComment = asyncHandler(async (req, res) => {
   }
 
   const existingProduct = await Product.findById(productId);
-  console.log(existingProduct)
   if (!existingProduct) {
     throw new ApiError(400, "No Such Products");
   }
@@ -128,7 +127,5 @@ export const getAllComments = asyncHandler(async (req, res) => {
     }
   ]);
 
-
-  console.log(comments)
   res.status(200).json(new ApiSuccess(200, comments, "Comments fetched successfully"));
 });

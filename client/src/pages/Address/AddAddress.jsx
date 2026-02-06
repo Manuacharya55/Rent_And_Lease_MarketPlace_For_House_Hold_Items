@@ -22,7 +22,6 @@ const AddAddress = () => {
         setIsProcessing(true);
         const response = await postData("profile/address", data, user?.token);
         if(response.success){
-            console.log(response)
             navigate("/")
         }
         setIsProcessing(false);

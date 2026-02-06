@@ -27,14 +27,12 @@ const AddressForm = ({ data, handleSubmit, isProcessing }) => {
     }, [data, reset]);
 
     const setLocationFromMap = (locationData) => {
-        // Map returns { lat, lng, country, state, district, address }
-        console.log(locationData)
         setValue("lat", locationData.lat);
         setValue("lng", locationData.lng);
         setValue("country", locationData.country);
         setValue("state", locationData.state);
         setValue("district", locationData.district);
-        setValue("address", locationData.address); // Optional if schema expects it, schema has 'address' field
+        setValue("address", locationData.address);
     };
 
     return (

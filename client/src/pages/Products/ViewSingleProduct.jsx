@@ -11,6 +11,7 @@ import ProductGallery from '../../components/SingleProduct/ProductGallery';
 import ProductOverview from '../../components/SingleProduct/ProductOverview';
 import ReviewsSection from '../../components/SingleProduct/ReviewSection';
 import ProductActions from '../../components/SingleProduct/ProductsActions';
+import Loader from '../../components/SingleProduct/../Shared/Loader';
 import { ArrowLeft } from 'lucide-react';
 
 const ViewSingleProduct = () => {
@@ -40,7 +41,6 @@ const ViewSingleProduct = () => {
 
     const handleSubmit = async () => {
         const response = await add(id, userRating, reviewText)
-        console.log(response)
         if (response.success) {
             setUserRating(0)
             setReviewText("")
@@ -49,10 +49,9 @@ const ViewSingleProduct = () => {
 
     const deleteReview = async (reviewId) => {
         const response = await remove(id, reviewId)
-        console.log(response)
     }
 
-    if (loading) return <div className="loading-container">Loading...</div>;
+    if (loading) return <Loader />;
     if (!product) return <div className="loading-container">Product Not Found</div>;
 
     return (

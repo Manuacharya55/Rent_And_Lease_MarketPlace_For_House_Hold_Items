@@ -13,8 +13,6 @@ const Register = () => {
     setIsProcessing(true);
     const response = await postData("/auth/register", data);
     if(response?.success){
-      console.log(response?.data?.user?._id,"id")
-      console.log(response?.data?.token,"token")
       setToken(response?.data?.token, response?.data?.user?._id);
       navigate(`/add-address/`);
     }

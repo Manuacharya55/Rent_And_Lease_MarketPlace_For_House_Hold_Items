@@ -13,16 +13,31 @@ const ProductForm = ({
   categories, // Optional list of categories
 }) => {
   const defaultCategories = categories || [
-    "Kitchen",
-    "Bedroom",
-    "Electronics",
-    "Bathroom",
-    "Furniture",
-    "Kitchenware",
-    "Clothing",
-    "Laundry Care",
-    "Decor",
-  ];
+    "kitchen",
+    "bedroom",
+    "living room",
+    "bathroom",
+    "furniture",
+    "appliances",
+    "electronics",
+    "kitchenware",
+    "laundry",
+    "cleaning",
+    "decor",
+    "lighting",
+    "storage",
+    "office",
+    "tools",
+    "garden",
+    "outdoor",
+    "fitness",
+    "kids",
+    "baby",
+    "party",
+    "clothing",
+    "seasonal",
+    "misc"
+  ]
 
   const {
     register,

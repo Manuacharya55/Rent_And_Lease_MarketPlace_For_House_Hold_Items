@@ -139,8 +139,6 @@ export const myProfile = asyncHandler(async (req, res) => {
         user: user[0],
         addresses: user[0]?.addresses[0]
     }
-    // console.log(user)
-    console.log(data)
     res.status(200).json(new ApiSuccess(200, data, "User Profile Fetched Successfully"))
 })
 

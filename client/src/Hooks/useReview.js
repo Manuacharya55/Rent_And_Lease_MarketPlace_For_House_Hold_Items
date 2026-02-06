@@ -18,15 +18,12 @@ export const useReview = () => {
         const token = requireAuth();
         if (!token) return
         try {
-            console.log(token)
             setLoading(true)
             const response = await getData(`reviews/${id}`, {}, token);
-            console.log(response)
             if (response.success) {
                 setReviews(response.data);
             }
         } catch (error) {
-            console.log(error)
             setError(error);
         } finally {
             setLoading(false)
@@ -40,7 +37,6 @@ export const useReview = () => {
         try {
             setProcessing(true)
             const response = await postData(`reviews/${id}`, { rating: userRating, description: reviewText }, token);
-            console.log(response)
             if (response.success) {
                 setReviews(prev => [...prev, response.data])
             }
@@ -59,13 +55,11 @@ export const useReview = () => {
         try {
             setProcessing(true)
             const response = await deleteData(`/reviews/${id}/${reviewId}`, {}, token);
-            console.log(response.data)
             if (response.success) {
                 setReviews(prev => prev.filter(r => r._id !== reviewId))
             }
             return response
         } catch (error) {
-            console.error(error);
             setError(error)
         } finally {
             setProcessing(false)

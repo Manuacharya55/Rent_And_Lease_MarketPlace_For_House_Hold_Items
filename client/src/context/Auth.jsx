@@ -39,23 +39,17 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (response.data.success) {
-        // console.log(response.data.data);
+        
         setWishlist(response.data.data);
       }
     } catch (error) {
-      console.log("Error", error);
+
     }
   };
 
   useLayoutEffect(() => {
     getToken();
   }, []);
-
-  // useEffect(() => {
-  //   if (user?.token) {
-  //     loadWishlist();
-  //   }
-  // }, [user]);
   
   const logout = () => {
     localStorage.removeItem("token");

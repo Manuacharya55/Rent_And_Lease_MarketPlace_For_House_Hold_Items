@@ -59,7 +59,6 @@ export const processPayment = asyncHandler(async (req, res) => {
 export const getBookedDates = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   const existingProduct = await Product.findById(productId).select("images name price category");
-  console.log(existingProduct);
 
   if (!existingProduct)
     return res.status(404).json({ error: "Product not found!" });

@@ -12,39 +12,53 @@ const ProductSchema = new Schema({
   category: {
     type: String,
     enum: [
-      "Kitchen",
-      "Bedroom",
-      "Electronics",
-      "Bathroom",
-      "Furniture",
-      "Kitchenware",
-      "Clothing",
-      "Laundry Care",
-      "Decor",
-      "garden"
+      "kitchen",
+      "bedroom",
+      "living room",
+      "bathroom",
+      "furniture",
+      "appliances",
+      "electronics",
+      "kitchenware",
+      "laundry",
+      "cleaning",
+      "decor",
+      "lighting",
+      "storage",
+      "office",
+      "tools",
+      "garden",
+      "outdoor",
+      "fitness",
+      "kids",
+      "baby",
+      "party",
+      "clothing",
+      "seasonal",
+      "misc"
     ],
     require: [true, "Product category is required"],
   },
-  price:{
-    type:Number,
-    require:[true,"Product price is required"]
+  price: {
+    type: Number,
+    require: [true, "Product price is required"]
   },
-  isActive:{
-    type:Boolean,
-    default:true
+  isActive: {
+    type: Boolean,
+    default: true
   },
-  images:[{
-    type:String,
-    require:[true,"Product image is required"]
+  images: [{
+    type: String,
+    require: [true, "Product image is required"]
   }],
-  userId:{
+  userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    require:[true,"User id is required"]
+    require: [true, "User id is required"]
   },
-  rentedDates:[{
-    type:Date
+  rentedDates: [{
+    type: Date
   }]
-},{timestamps:true});
+}, { timestamps: true });
 
 export const Product = model("Product", ProductSchema);

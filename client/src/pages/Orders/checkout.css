@@ -31,10 +31,6 @@
     /* background: white; */
     border-radius: 16px;
     padding: 24px;
-    /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); */
-    /* border: 1px solid #f3f4f6; */
-    height: 100%;
-    /* Try to match heights if content allows */
     display: flex;
     flex-direction: column;
 }
