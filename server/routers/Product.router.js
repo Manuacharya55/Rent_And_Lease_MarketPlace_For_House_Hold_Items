@@ -8,7 +8,7 @@ import {
   myProducts,
   updateProduct,
 } from "../controllers/Product.controller.js";
-import { verifyUser } from "../middlewares/auth.middleware.js";
+import { verifyUser } from "../middlewares/Auth.middleware.js";
 const router = Router();
 
 router.route("/").get(verifyUser, listAllProducts).post(verifyUser, addProduct);

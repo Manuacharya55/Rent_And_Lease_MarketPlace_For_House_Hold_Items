@@ -1,6 +1,6 @@
 import express from "express";
-import { getBookedDates, processPayment } from "../controllers/rentController.js";
-import { verifyUser } from "../middlewares/auth.middleware.js";
+import { getBookedDates, processPayment } from "../controllers/Rent.controller.js";
+import { verifyUser } from "../middlewares/Auth.middleware.js";
 
 const router = express.Router();
 

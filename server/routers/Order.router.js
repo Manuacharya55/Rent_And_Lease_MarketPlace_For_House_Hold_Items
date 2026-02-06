@@ -1,6 +1,6 @@
 import express from "express";
 import { getBorrowedHistory, getBorrowedProducts, getMyOrders, updateBorrowedStatus } from "../controllers/Order.controller.js";
-import { verifyUser } from "../middlewares/auth.middleware.js";
+import { verifyUser } from "../middlewares/Auth.middleware.js";
 
 
 const router = express.Router();
