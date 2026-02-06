@@ -4,14 +4,13 @@ import '../../style/profile-modern.css';
 import { useAuth } from '../../context/Auth';
 
 const ProfileHeader = ({ data }) => {
-    const { user } = useAuth();
-
+    const { avatar,name,email,createdAt } = data.user
     return (
         <div className="profile-header-card">
             <div className="profile-header-bg"></div>
             <div className="avatar-wrapper">
                 <img
-                    src={user?.avatar || "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop"}
+                    src={avatar || "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop"}
                     alt="Profile"
                     className="profile-avatar"
                 />
@@ -19,9 +18,9 @@ const ProfileHeader = ({ data }) => {
                     <Camera size={18} />
                 </button>
             </div>
-            <h1 className="profile-name">{data?.name || user?.name}</h1>
+            <h1 className="profile-name">{name}</h1>
             {/* Optional: Show role or joined date */}
-            {data?.createdAt && <p className="profile-role">Member since {data.createdAt.split("T")[0]}</p>}
+            {createdAt && <p className="profile-role">Member since {createdAt.split("T")[0]}</p>}
         </div>
     );
 };

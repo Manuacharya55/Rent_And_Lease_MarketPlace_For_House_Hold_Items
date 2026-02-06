@@ -21,20 +21,20 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
-connectDB().then(()=>{
-    app.listen(4000,()=>{
+connectDB().then(() => {
+    app.listen(4000, () => {
         console.log("server runnning at port")
     })
-}).catch((err)=>{
+}).catch((err) => {
     console.log(err)
     process.exit(1)
 })
 
-app.use("/api/v2/auth",authRouter)
-app.use("/api/v2/profile",profileRouter)
-app.use("/api/v2/product",productRouter)
-app.use("/api/v2/reviews",reviewRouter)
-app.use("/api/v2/wishlist",wishlistRouter)
+app.use("/api/v2/auth", authRouter)
+app.use("/api/v2/profile", profileRouter)
+app.use("/api/v2/product", productRouter)
+app.use("/api/v2/reviews", reviewRouter)
+app.use("/api/v2/wishlist", wishlistRouter)
 app.use("/api/v2/rent", rentRouter)
 app.use("/api/v2/order", orderRouter)
 
