@@ -39,16 +39,6 @@ const MyOrders = () => {
         fetchProducts()
     }, [user?.token])
 
-    const handleDelete = async (id) => {
-        try {
-            const response = await deleteData(`product/${id}`, {}, user?.token)
-            if (response.success) {
-                setData(data.map(item => item._id === id ? { ...item, isActive: !item.isActive } : item))
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    }
     const [selectedOrder, setSelectedOrder] = useState(null);
 
     const openModal = (order) => setSelectedOrder(order);

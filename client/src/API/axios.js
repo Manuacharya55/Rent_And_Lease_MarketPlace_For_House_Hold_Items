@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-axios.defaults.baseURL = `http://localhost:4000/api/v2/`;
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const buildHeaders = (token) => {
   const headers = { "Content-Type": "application/json" };
@@ -26,6 +26,7 @@ export const postData = async (url, data = {}, token) => {
     return res.data;
   } catch (error) {
     toast.error((error && error.response && error.response.data && error.response.data.message) || "Request failed");
+    console.log(error.response.data);
     return error.response.data;
   }
 };

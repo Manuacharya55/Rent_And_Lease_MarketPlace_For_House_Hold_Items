@@ -13,10 +13,11 @@ import { getData } from "../../API/axios";
 import toast from "react-hot-toast";
 import PaymentCard from "../../components/Payment/PaymentCard";
 import { ArrowLeft } from "lucide-react";
+import Loader from "../../components/Shared/Loader";
 
 // Stripe Public Key
 const stripePromise = loadStripe(
-    import.meta.env.VITE_STRIPE_PUBLIC_KEY
+    import.meta.env.VITE_STRIPE_KEY
 );
 
 const Checkout = () => {
@@ -59,11 +60,10 @@ const Checkout = () => {
     const displayProduct = data?.product || productFallback;
 
 
-    return loading ? (
-        <div className="loading" style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <h1>Loading...</h1>
-        </div>
-    ) : (
+    if (loading) return <Loader />;
+    if (!displayProduct) return <div className="loading-container">Product Not Found</div>;
+
+    return (
         <div className="checkout-page">
             <div className="page-header-actions">
                 <button className="back-btn" onClick={() => navigate(-1)}>

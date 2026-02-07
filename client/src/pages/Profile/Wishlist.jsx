@@ -6,6 +6,7 @@ import { Trash2, ShoppingCart, ArrowLeft } from 'lucide-react';
 import { deleteData, getData } from '../../API/axios';
 import { useWishlist } from '../../Hooks/useWishlist';
 import ProductCard from '../../components/Shared/ProductCard';
+import Loader from '../../components/Shared/Loader';
 
 const Wishlist = () => {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Wishlist = () => {
         await remove(id)
     }
 
-    if (loading) return <div className="loading-container">Loading...</div>;
+    if (loading) return <Loader />;
     if (!wishlist) return <div className="loading-container">Wishlist Not Found</div>;
 
     return (

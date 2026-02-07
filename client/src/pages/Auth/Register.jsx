@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+  import React, { useState } from "react";
 import RegisterForm from "../../Forms/RegisterForm";
 import { postData } from "../../API/axios";
 import { useAuth } from "../../context/Auth";
@@ -8,11 +8,11 @@ const Register = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { setToken } = useAuth();
   const navigate = useNavigate();
-  
+
   const handleRegister = async (data) => {
     setIsProcessing(true);
     const response = await postData("/auth/register", data);
-    if(response?.success){
+    if (response?.success) {
       setToken(response?.data?.token, response?.data?.user?._id);
       navigate(`/add-address/`);
     }
@@ -20,12 +20,12 @@ const Register = () => {
   };
 
   return (
-    <div id="container">
-      <div id="image-holder">
-       <img src="https://img.freepik.com/premium-photo/house-with-black-roof-black-door-that-says-welcome-front_1261459-3805.jpg?ga=GA1.1.264547320.1740062602&semt=ais_hybrid" alt="Register" />
+    <div className="auth-container">
+      <div className="auth-image-holder">
+        <img src="https://img.freepik.com/free-photo/hand-presenting-model-house-home-loan-campaign_53876-104970.jpg?t=st=1740200000~exp=1740203600~hmac=d8c9735626359286699252062562477382498262624558256" alt="Register" />
       </div>
-      <div id="form-holder">
-        <h2 style={{marginBottom: "20px"}}>Create Account</h2>
+      <div className="auth-form-holder">
+        <h2 style={{ marginBottom: "20px" }}>Create Account</h2>
         <RegisterForm handleSubmit={handleRegister} isProcessing={isProcessing} />
       </div>
     </div>

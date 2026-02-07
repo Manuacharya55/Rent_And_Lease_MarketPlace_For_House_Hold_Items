@@ -46,19 +46,24 @@
 /* Selected Date */
 .highlighted-date {
     background: #4f46e5 !important;
+    /* Indigo-600 */
     color: white !important;
     font-weight: bold;
+
 }
 
 .highlighted-date:enabled:hover,
 .highlighted-date:enabled:focus {
     background: #4338ca !important;
+    /* Indigo-700 */
 }
 
 /* Booked Date (Example custom color) */
 .booked-date {
     background: #fee2e2 !important;
+    /* Red-100 */
     color: #ef4444 !important;
+    /* Red-500 */
     text-decoration: line-through;
     pointer-events: none;
 }

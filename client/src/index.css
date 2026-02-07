@@ -55,14 +55,14 @@ body,
 }
 
 /* Auth Layout */
-#container {
+.auth-container {
   display: flex;
   width: 100%;
   height: 100vh;
   /* overflow: hidden; */
 }
 
-#image-holder {
+.auth-image-holder {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -70,13 +70,13 @@ body,
   background-color: #000;
 }
 
-#image-holder img {
+.auth-image-holder img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-#form-holder {
+.auth-form-holder {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -85,6 +85,7 @@ body,
   padding: 40px;
   background-color: var(--background-color);
 }
+
 
 /* Form Styles */
 form {
@@ -96,7 +97,7 @@ form {
   gap: 20px;
 }
 
-form.grid-form {
+.grid-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
@@ -160,7 +161,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:disabled {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-hover);
   cursor: not-allowed;
 }
 
@@ -207,226 +208,33 @@ button[type="submit"]:disabled {
   margin-bottom: 10px;
 }
 
-/* Address Form Split Layout */
-.address-layout {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.map-side {
-  flex: 1;
-  height: 100%;
-  position: relative;
-}
-
-.map-side .leaflet-container {
-  height: 100% !important;
-  width: 100% !important;
-}
-
-.form-side {
-  flex: 1;
-  height: 100%;
-  overflow-y: auto;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* Center form vertically if it's short, or scroll if long */
-  align-items: center;
-}
-
-.form-side form {
-  max-width: 600px;
-  margin: auto;
-  /* To help centering in scrollable area */
-}
+/* Address styles moved to style/Address.css */
+/* NavBar styles moved to style/NavBar.css */
+/* Footer styles moved to style/Footer.css */
 
 @media (max-width: 768px) {
-  .address-layout {
+  .auth-container {
     flex-direction: column;
   }
 
-  .map-side {
+  .auth-image-holder {
+    height: 30vh;
     flex: none;
-    height: 40vh;
-    width: 100%;
   }
 
-  .form-side {
+  .auth-form-holder {
     flex: 1;
-    height: 60vh;
-    /* Remaining height */
-    width: 100%;
     padding: 20px;
-    align-items: stretch;
+    justify-content: start;
+    padding-top: 40px;
   }
 
-  .form-side form {
-    width: 100%;
-    margin: 0;
-  }
-}
-
-/* Responsive NavBar Styles */
-.navbar {
-  background: transparent;
-  backdrop-filter: blur(10px);
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-}
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px;
-  width: 100%;
-  max-width: 1200px;
-  padding: 0 20px;
-}
-
-.navbar-logo {
-  color: #1a1a1a;
-  justify-self: start;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: 900;
-  letter-spacing: -1px;
-}
-
-.logo-accent {
-  color: #555;
-  font-style: italic;
-  font-family: serif;
-}
-
-.menu-icon {
-  display: none;
-  cursor: pointer;
-}
-
-.nav-menu {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  text-align: center;
-  align-items: center;
-}
-
-.nav-links {
-  color: #333;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  transition: all 0.2s ease-out;
-  border-radius: 4px;
-}
-
-.nav-links:hover,
-.nav-links.active {
-  background-color: #f2f2f2;
-}
-
-.nav-links .nav-icon {
-  display: none;
-  /* Hide icons on desktop for cleaner look, or keep them. Let's keep them if space allows. */
-}
-
-@media(min-width: 960px) {
-  .nav-links .nav-icon {
-    display: inline-block;
-  }
-}
-
-
-/* Logout Button Specifics */
-.logout-btn {
-  cursor: pointer;
-  color: #d9534f;
-  /* Reddish for logout action */
-}
-
-.logout-btn:hover {
-  background-color: #fff1f0;
-}
-
-/* Mobile Menu */
-@media screen and (max-width: 960px) {
-  .navbar {
-    position: relative;
-    /* Or sticky? Sticky is good on mobile too */
+  .grid-form {
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
 
-  .nav-menu {
-    display: flex;
-    /* Use flex to push it off screen via transform ?? or display:none. Flex usually better for transitions */
-    flex-direction: column;
-    width: 100%;
-    height: calc(100vh - 80px);
-    /* Height minus navbar height */
-    position: absolute;
-    top: 80px;
-    left: -100%;
-    /* Hide off screen */
-    opacity: 1;
-    transition: all 0.5s ease;
-    background: white;
-    padding-top: 20px;
+  .span-2 {
+    grid-column: span 1;
   }
-
-  .nav-menu.active {
-    left: 0;
-    /* Slide in */
-    opacity: 1;
-    transition: all 0.5s ease;
-    z-index: 1000;
-  }
-
-  .nav-links {
-    text-align: center;
-    padding: 2rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .nav-links:hover {
-    background-color: #f8f8f8;
-    color: #1a1a1a;
-  }
-
-  .nav-links .nav-icon {
-    display: inline-block;
-    /* Show icons on mobile for clarity */
-    margin-right: 10px;
-  }
-
-  .menu-icon {
-    display: block;
-    color: #1a1a1a;
-  }
-}
-
-#address-map {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #000;
-  text-decoration: none;
 }

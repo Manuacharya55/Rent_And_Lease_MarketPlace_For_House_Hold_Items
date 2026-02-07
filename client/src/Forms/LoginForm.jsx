@@ -44,9 +44,9 @@ const LoginForm = ({ handleSubmit, isProcessing }) => {
       <button type="submit" disabled={isProcessing}>
         {isProcessing ? 'Logging in...' : 'Login'}
       </button>
-      
-      <div style={{ textAlign: 'center', marginTop: '10px', fontSize: '14px' }}>
-          Don't have an account? <Link to="/register" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>Register</Link>
+
+      <div className="span-2" style={{ textAlign: 'center', fontSize: '14px' }}>
+        Don't have an account? <Link to="/register" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>Register</Link>
       </div>
     </form>
   );

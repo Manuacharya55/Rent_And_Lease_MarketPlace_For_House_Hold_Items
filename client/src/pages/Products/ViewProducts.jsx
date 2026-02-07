@@ -88,6 +88,7 @@ const ViewProducts = () => {
 
     const fetchProducts = async () => {
         if (!user?.token) return
+        setLoading(true)
         try {
             // Build query params from active filters
             let queryParams = `page=${pagination.currentPage}`;
@@ -103,6 +104,8 @@ const ViewProducts = () => {
             }
         } catch (error) {
             console.error(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -142,12 +145,13 @@ const ViewProducts = () => {
         navigate(`/products?${params.toString()}`);
     };
 
+    if (loading) return <Loader />;
+    if (!data.length) return <div className="loading-container">Product Not Found</div>;
     return (
         <div className="view-products-container">
-            {loading && <Loader />}
             {/* Hero & Search Section (Image 1 Style) */}
             <div className="listing-hero">
-                <div className="hero-content" style={{textAlign:'center'}}>
+                <div className="hero-content" style={{ textAlign: 'center' }}>
                     <h1 className="hero-title">
                         Discover Perfect Items For Your Home.
                     </h1>
@@ -216,6 +220,7 @@ const ViewProducts = () => {
                             product={product}
                             variant="product"
                             onAddWishlist={addToWishlist}
+                            key={product._id}
                         />
 
                     ))}
