@@ -1,7 +1,7 @@
 import React from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "../MyCalendar.css";
+
 
 const DatePicker = ({ setSelectedDate, selectedDate, bookedDates = [] }) => {
 
