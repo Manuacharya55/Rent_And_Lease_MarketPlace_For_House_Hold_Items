@@ -2,7 +2,7 @@
 
 A full-stack MERN application that facilitates the renting and leasing of household items. This platform connects owners with individuals looking to rent items, featuring secure payments, interactive maps, and a comprehensive review system.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://rent-and-lease-marketplace-for-house-hold-items.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://rent-and-lease-market-place-for-hou-sigma.vercel.app/)
 
 ## 🚀 Data Flow & Tech Stack
 
