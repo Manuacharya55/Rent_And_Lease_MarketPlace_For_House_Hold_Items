@@ -1,3 +1,7 @@
+live link
+
+https://rent-and-lease-marketplace-for-house-hold-items.vercel.app/
+
 # Rent & Lease Marketplace for Household Items
 
 A full-stack MERN application that facilitates the renting and leasing of household items. This platform connects owners with individuals looking to rent items, featuring secure payments, interactive maps, and a comprehensive review system.

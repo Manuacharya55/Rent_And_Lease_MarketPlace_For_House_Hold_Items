@@ -41,12 +41,12 @@ function App() {
         {/* Routes with Layout (NavBar + Footer) */}
         <Route element={<ProtectedLayout />}>
           {/* Public Routes */}
+          <Route element={<ProtectedRoute />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ViewProducts />} />
           <Route path="/product/:id" element={<ViewSingleProduct />} />
 
           {/* Protected Routes inside Layout */}
-          <Route element={<ProtectedRoute />}>
             <Route path="/myprofile" element={<Profile />} />
             <Route path="/wishlist" element={<Wishlist />} />
 
