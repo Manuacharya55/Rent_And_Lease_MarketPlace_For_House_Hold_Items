@@ -21,9 +21,10 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
+const PORT = process.env.PORT || 4000
 connectDB().then(() => {
-    app.listen(4000, () => {
-        console.log("server runnning at port")
+    app.listen(PORT, () => {
+        console.log("server runnning at port", PORT)
     })
 }).catch((err) => {
     console.log(err)

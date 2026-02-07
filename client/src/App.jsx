@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import "./index.css";
 
 import Profile from "./pages/Profile/Profile";
@@ -24,6 +23,7 @@ import MyOrders from "./pages/Orders/MyOrders";
 import TodaysOrder from "./pages/Orders/TodaysOrder";
 import OrderHistory from "./pages/Orders/OrderHistory";
 import EditAddress from "./pages/Address/EditAddress";
+
 function App() {
   return (
     <BrowserRouter>
@@ -31,16 +31,25 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/test" element={<EditProducts />} />
+
+        {/* Protected routes without Layout */}
         <Route element={<ProtectedRoute />}>
           <Route path="/add-address" element={<AddAddress />} />
           <Route path="/edit-address/:id" element={<EditAddress />} />
-          <Route element={<ProtectedLayout />}>
-            <Route path="/" element={<HomePage />} />
+        </Route>
+
+        {/* Routes with Layout (NavBar + Footer) */}
+        <Route element={<ProtectedLayout />}>
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ViewProducts />} />
+          <Route path="/product/:id" element={<ViewSingleProduct />} />
+
+          {/* Protected Routes inside Layout */}
+          <Route element={<ProtectedRoute />}>
             <Route path="/myprofile" element={<Profile />} />
             <Route path="/wishlist" element={<Wishlist />} />
 
-            <Route path="/products" element={<ViewProducts />} />
-            <Route path="/product/:id" element={<ViewSingleProduct />} />
             <Route path="/add-product" element={<AddProducts />} />
             <Route path="/edit-product/:id" element={<EditProducts />} />
 
@@ -52,7 +61,6 @@ function App() {
             <Route path="/dashboard/todays-order" element={<TodaysOrder />} />
             <Route path="/dashboard/orders-history" element={<OrderHistory />} />
             <Route path="/dashboard/edit/:id" element={<EditProducts />} />
-
           </Route>
         </Route>
       </Routes>

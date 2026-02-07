@@ -10,7 +10,7 @@ export const listAllProducts = asyncHandler(async (req, res) => {
 
   const query = {
     isActive: true,
-    userId: { $ne: new mongoose.Types.ObjectId(req.user._id) } // Exclude products where userId is current user
+    // userId: { $ne: new mongoose.Types.ObjectId(req.user._id) } // Exclude products where userId is current user
   };
 
   const pagelimit = parseInt(limit) || 10;

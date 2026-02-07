@@ -147,9 +147,9 @@ const ViewProducts = () => {
             {loading && <Loader />}
             {/* Hero & Search Section (Image 1 Style) */}
             <div className="listing-hero">
-                <div className="hero-content">
+                <div className="hero-content" style={{textAlign:'center'}}>
                     <h1 className="hero-title">
-                        Discover Perfect Items<br />For Your Home.
+                        Discover Perfect Items For Your Home.
                     </h1>
                 </div>
 

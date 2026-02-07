@@ -41,7 +41,7 @@ const ProductCard = ({
 
             <div className="card-price-block">
               <span className="card-price">{product.price}</span>
-              <span className="card-period">per day</span>
+              <span className="card-period">/day</span>
             </div>
           </div>
 

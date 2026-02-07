@@ -50,7 +50,7 @@ const HomePage = () => {
 
          {/* HERO SECTION */}
          <section className="hero-section">
-            <div className="hero-content">
+            <div className="hero-content" >
                <span className="hero-badge">THE #1 RENTAL MARKETPLACE</span>
                <h1 className="hero-title">
                   Own Less.<br />

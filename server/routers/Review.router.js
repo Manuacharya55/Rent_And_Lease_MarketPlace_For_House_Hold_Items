@@ -9,7 +9,7 @@ import { verifyUser } from "../middlewares/Auth.middleware.js";
 
 const router = Router();
 
-router.route("/:productId").get(verifyUser,getAllComments).post(verifyUser, addComment);
+router.route("/:productId").get(verifyUser, getAllComments).post(verifyUser, addComment);
 
 router
   .route("/:productId/:commentId")
