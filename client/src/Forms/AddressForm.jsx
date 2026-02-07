@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddressSchema } from '../schema/Address.Schema';
 import Map from '../components/Location/Map';
-import '../../style/Address.css';
+import '../style/Address.css';
 
 const AddressForm = ({ data, handleSubmit, isProcessing }) => {
     const {
